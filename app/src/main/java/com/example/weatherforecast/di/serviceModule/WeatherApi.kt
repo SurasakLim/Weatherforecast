@@ -10,6 +10,6 @@ import java.util.*
 
 interface WeatherApi {
 
-    @GET("forecast?q=},us&appid=}")
-    fun getWeatherForCityId(@Query("q") cityId:String, @Query("appid") ApiKey:String): Observable<Response<Weather>>
+    @GET("forecast?")
+    fun getWeatherForCityId(@Query("q") cityId:String, @Query("appid") ApiKey:String,@Query("units") units:String): Observable<Response<Weather>>
 }

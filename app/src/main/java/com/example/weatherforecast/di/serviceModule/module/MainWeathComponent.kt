@@ -2,17 +2,26 @@ package com.example.weatherforecast.di.serviceModule.module
 
 import com.example.weatherforecast.MainActivity
 import com.example.weatherforecast.ui.mainWeather.MainWeatherFragment
-import dagger.Component
+import dagger.Binds
+import dagger.Module
 import dagger.Subcomponent
+import dagger.android.AndroidInjector
+import dagger.multibindings.ClassKey
+import dagger.multibindings.IntoMap
 
 @Subcomponent
-interface MainWeathComponent{
+interface MainWeathComponent : AndroidInjector<MainActivity>{
 
     @Subcomponent.Factory
-    interface Factory{
-        fun create(): MainWeathComponent
+    interface Factory : AndroidInjector.Factory<MainActivity>{
     }
 
-    fun inject(activiyWeather:MainActivity)
-    fun inject(fragementWeath:MainWeatherFragment)
+}
+
+@Module(subcomponents = [MainWeathComponent::class])
+internal abstract class InjectorModule {
+    @Binds
+    @IntoMap
+    @ClassKey(MainActivity::class)
+    abstract fun bind(factory: MainWeathComponent.Factory?): AndroidInjector.Factory<*>?
 }

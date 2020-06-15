@@ -42,7 +42,7 @@ data class WeatherDetial(
     val dt: Int = 0,
 
     @field:SerializedName("dt_txt")
-    val dt_txt: String = "",
+    var dt_txt: String = "",
 
     @field:SerializedName("main")
     val main: Main,

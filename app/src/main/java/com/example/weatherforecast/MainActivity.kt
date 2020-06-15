@@ -9,7 +9,7 @@ import dagger.android.HasAndroidInjector
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-class MainActivity : BaseAppCompatActivity() {
+class MainActivity : DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

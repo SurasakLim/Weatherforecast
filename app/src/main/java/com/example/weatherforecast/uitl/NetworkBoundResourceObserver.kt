@@ -2,7 +2,6 @@ package com.example.weatherforecast.uitl
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.weatherforecast.di.serviceModule.NoNetworkException
 import io.reactivex.Observable
 import io.reactivex.observers.DefaultObserver
 import io.reactivex.schedulers.Schedulers

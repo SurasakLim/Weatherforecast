@@ -1,4 +1,4 @@
-package com.example.weatherforecast.di.serviceModule
+package com.example.weatherforecast.uitl
 
 import com.google.gson.annotations.SerializedName
 

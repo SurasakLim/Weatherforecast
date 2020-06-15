@@ -1,6 +1,6 @@
 package com.example.weatherforecast.ui.domain
 
-import com.example.weatherforecast.di.serviceModule.NoNetworkException
+import com.example.weatherforecast.uitl.NoNetworkException
 import com.example.weatherforecast.ui.mainWeather.model.WeathResponse
 import com.example.weatherforecast.ui.mainWeather.model.Weather
 import com.example.weatherforecast.uitl.AppExecutors

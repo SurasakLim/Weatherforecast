@@ -15,12 +15,19 @@ import javax.inject.Singleton
     AndroidInjectionModule::class,
     ApiModule::class,
     AppModule::class,
+    ActivityModule::class,
     WeatherModuleContributor::class
-
     ])
-interface AppComponent : AndroidInjector<MainApplication>{
+interface AppComponent: AndroidInjector<MainApplication> {
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        fun application(application: Application): Builder
 
-    @Component.Factory
-    interface Factory : AndroidInjector.Factory<MainApplication>
+        fun build(): AppComponent
+    }
+
+
+    override fun inject(app: MainApplication)
 
 }
