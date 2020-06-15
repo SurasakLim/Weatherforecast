@@ -7,27 +7,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.weatherforecast.MainActivity
-import com.example.weatherforecast.MainApplication
-
 import com.example.weatherforecast.R
-import com.example.weatherforecast.di.serviceModule.annotation.Injectable
-import com.example.weatherforecast.ui.mainWeather.model.WeathResponse
 import com.example.weatherforecast.ui.mainWeather.model.Weather
 import com.example.weatherforecast.ui.mainWeather.model.WeatherDetial
-import com.example.weatherforecast.uitl.GlidExtenion.loadImage
-import com.example.weatherforecast.uitl.StringExtenion.dateToDay
 import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureCelsius
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.card_weath_main.*
 import kotlinx.android.synthetic.main.main_weather_fragment.*
 import javax.inject.Inject
 
-class MainWeatherFragment : DaggerFragment(), MainWeatherContract.View {
+class MainWeatherFragment : DaggerFragment(), MainWeatherContract.View ,MainWeatherContract.ListnerNavigate {
 
+    private lateinit var navController: NavController
     private var adapterWeather: WeatherAdapter? = null
 
     @Inject
@@ -35,6 +35,7 @@ class MainWeatherFragment : DaggerFragment(), MainWeatherContract.View {
 
     @Inject
     lateinit var presenter: MainWeatherPresenter
+
     private val formatC = "\u2013"
     private val formatF = "\u2019"
 
@@ -51,6 +52,10 @@ class MainWeatherFragment : DaggerFragment(), MainWeatherContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val navHostFragment = childFragmentManager
+            .findFragmentById(R.id.mainWeatherFragment2) as NavHostFragment
+        navController = navHostFragment.navController
+
         presenter.onGetWeatherData("London")
     }
 
@@ -60,7 +65,7 @@ class MainWeatherFragment : DaggerFragment(), MainWeatherContract.View {
             WeatherAdapter(
                 it.toCollection(
                     mutableListOf()
-                )
+                ),this
             )
         }
         list_future_weather.apply {
@@ -98,6 +103,13 @@ class MainWeatherFragment : DaggerFragment(), MainWeatherContract.View {
                 }
             }
         }
+        include.setOnClickListener {
+//            val dirct = MainWeatherFragmentDirections.actionMainWeatherFragment2ToWearterDetailFragment(
+//                viewModelWeath.weather.value?.data!!,
+//                viewModelWeath.weather.value?.data?.list?.get(0)!!
+//            )
+            it.findNavController().navigate(R.id.action_mainWeatherFragment2_to_wearterDetailFragment)
+        }
 
 
     }
@@ -108,6 +120,9 @@ class MainWeatherFragment : DaggerFragment(), MainWeatherContract.View {
     }
 
     override fun onErrorWeather(message: String) {
+    }
+
+    override fun onNavigateView(weatherDetial: WeatherDetial) {
 
     }
 

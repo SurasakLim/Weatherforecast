@@ -1,7 +1,10 @@
 package com.example.weatherforecast.ui.mainWeather.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Weather(
     @field:SerializedName("city")
     val city: City = City(),
@@ -17,8 +20,9 @@ data class Weather(
 
     @field:SerializedName("message")
     val message: Double = 0.0
-)
+) : Parcelable
 
+@Parcelize
 data class City(
     @field:SerializedName("coord")
     val coord: Coord = Coord(),
@@ -31,8 +35,9 @@ data class City(
 
     @field:SerializedName("name")
     val name: String = ""
-)
+) : Parcelable
 
+@Parcelize
 data class WeatherDetial(
 
     @field:SerializedName("clouds")
@@ -61,21 +66,25 @@ data class WeatherDetial(
 
     @field:SerializedName("wind")
     val wind: Wind
-)
+) : Parcelable
 
+@Parcelize
 data class Coord(
     @field:SerializedName("lat")
     val lat: Double = 0.0,
 
     @field:SerializedName("lon")
     val lon: Double = 0.0
-)
+) : Parcelable
 
+@Parcelize
 data class Clouds(
     @field:SerializedName("all")
     val all: Int = 0
-)
+) : Parcelable
 
+
+@Parcelize
 data class Main(
     @field:SerializedName("grnd_level")
     val grnd_level: Double = 0.0,
@@ -100,23 +109,28 @@ data class Main(
 
     @field:SerializedName("temp_min")
     val temp_min: Double = 0.0
-)
+) : Parcelable
 
+@Parcelize
 data class Rain(
     @field:SerializedName("3h")
     val `3h`: Double = 0.0
-)
+) : Parcelable
 
+@Parcelize
 data class Snow(
     @field:SerializedName("3h")
     val `3h`: Double = 0.0
-)
+) : Parcelable
 
+
+@Parcelize
 data class Sys(
     @field:SerializedName("pod")
     val pod: String = ""
-)
+) : Parcelable
 
+@Parcelize
 data class WeatherX(
     @field:SerializedName("description")
     val description: String = "",
@@ -129,12 +143,13 @@ data class WeatherX(
 
     @field:SerializedName("main")
     val main: String = ""
-)
+) : Parcelable
 
+@Parcelize
 data class Wind(
     @field:SerializedName("deg")
     val deg: Double = 0.0,
 
     @field:SerializedName("speed")
     val speed: Double = 0.0
-)
+) : Parcelable
