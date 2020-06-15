@@ -19,7 +19,7 @@
             android:id="@+id/icon_weather"
             android:layout_width="85dp"
             android:layout_height="75dp"
-            android:layout_marginStart="36dp"
+            android:layout_marginStart="24dp"
             android:background="@drawable/ic_clouds_main"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -29,14 +29,13 @@
 
         <TextView
             android:id="@+id/title_cityname"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="sans-serif-condensed-light"
             android:textColor="@color/cardview_light_background"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/icon_weather"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toTopOf="@+id/icon_weather"
             tools:text="City name" />
 
@@ -44,11 +43,11 @@
             android:id="@+id/weath_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif-condensed-light"
             android:textColor="@color/cardview_light_background"
             android:textSize="13sp"
-            app:layout_constraintStart_toEndOf="@+id/icon_weather"
+            app:layout_constraintStart_toStartOf="@+id/title_cityname"
             app:layout_constraintTop_toBottomOf="@+id/title_cityname"
             tools:text="weather status" />
 
@@ -57,8 +56,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif-condensed-light"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/cardview_light_background"
             android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="@+id/weath_status"
             app:layout_constraintStart_toStartOf="@+id/weath_status"
             app:layout_constraintTop_toBottomOf="@+id/weath_status"
             tools:text="weather status" />
@@ -68,21 +70,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="247dp" />
+            app:layout_constraintGuide_begin="251dp" />
 
         <TextView
             android:id="@+id/title_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            tools:text="32 \u2103"
-            android:textStyle="bold"
-            android:textSize="40sp"
             android:textColor="@android:color/white"
+            android:textSize="40sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.507"
+            app:layout_constraintHorizontal_bias="0.31"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="32 \u2103" />
 
         <TextView
             android:id="@+id/title_temp_sup"
@@ -93,6 +95,13 @@
             app:layout_constraintStart_toStartOf="@+id/title_temp"
             app:layout_constraintTop_toBottomOf="@+id/title_temp"
             tools:text="32\u2103/35\u2103" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="126dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

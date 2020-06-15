@@ -1,5 +1,6 @@
 package com.example.weatherforecast.ui.mainWeather
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -54,19 +55,12 @@ class MainWeatherFragment : DaggerFragment(), MainWeatherContract.View {
     }
 
     private fun setUpAdapter() {
-        var data = viewModelWeath.weather.value?.data?.list
-        data?.forEach {
-            it.dt_txt = it.dt_txt.dateToDay()!!
-        }
-        var sIn = ""
-        data?.dropLastWhile {
-            it.dt_txt == it.dt_txt
-        }
-        adapterWeather = viewModelWeath.weather.value?.data?.list?.let {
+
+        adapterWeather = viewModelWeath.getGroupWeatherDay()?.let {
             WeatherAdapter(
                 it.toCollection(
                     mutableListOf()
-                ).subList(0, 6)
+                )
             )
         }
         list_future_weather.apply {
@@ -81,26 +75,30 @@ class MainWeatherFragment : DaggerFragment(), MainWeatherContract.View {
         super.onActivityCreated(savedInstanceState)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onShowWeather(data: Weather) {
         setUpAdapter()
-        title_cityname.text = viewModelWeath.weather.value?.data?.city?.name
-        weath_status.text = viewModelWeath.weather.value?.data?.city?.name
-        viewModelWeath.weather.value?.data?.list?.get(0).let { it ->
-            it?.main?.let {
+        viewModelWeath.apply {
+            title_cityname.text = viewModelWeath.weather.value?.data?.city?.name
+            weath_status.text = viewModelWeath.weather.value?.data?.city?.name
+            getCurrentWeather()?.main?.let {
                 val tempMax = it.temp_max.toString().fromatTemperatureCelsius()
                 val tempMin = it.temp_min.toString().fromatTemperatureCelsius()
                 title_temp.text = it.temp.toString().fromatTemperatureCelsius()
                 title_temp_sup.text = "$tempMax/$tempMin"
+                val humidity = it.humidity.toString()
+                weath_status_sub.text = "Humidity $humidity %"
             }
 
-            weath_status.text = it?.weatherX?.get(0)?.description
-            val humidity = it?.main?.humidity.toString()
-            weath_status_sub.text = "Humidity  $humidity %"
-            it?.weatherX?.get(0)?.icon?.let {
-                Glide.with(this).load("http://openweathermap.org/img/wn/$it@2x.png")
-                    .into(icon_weather)
+            getWeatherDetail()?.get(0).let { it ->
+                weath_status.text = it?.description
+                it?.icon?.let {
+                    Glide.with(this@MainWeatherFragment).load("http://openweathermap.org/img/wn/$it@2x.png")
+                        .into(icon_weather)
+                }
             }
         }
+
 
     }
 
@@ -109,9 +107,8 @@ class MainWeatherFragment : DaggerFragment(), MainWeatherContract.View {
         adapterWeather?.notifyDataSetChanged()
     }
 
-    override fun onErrorWeather(messageError: String) {
-//        viewModelWeath.weather.value
-//        testData.text = viewModelWeath.weather.value?.errorMessage
+    override fun onErrorWeather(message: String) {
+
     }
 
 }

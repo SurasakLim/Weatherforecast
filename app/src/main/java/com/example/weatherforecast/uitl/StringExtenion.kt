@@ -1,12 +1,19 @@
 package com.example.weatherforecast.uitl
 
 import android.os.Build
+import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 object StringExtenion {
 
-    fun String.fromatTemperatureCelsius() = this + "\u2103"
+    fun String.fromatTemperatureCelsius():String {
+        val decimalFormat = DecimalFormat().apply {
+            applyPattern("###.#")
+        }
+        return decimalFormat.format(this.toDouble()) + "\u2103"
+    }
+
     fun String.fromatTemperatureFahrenheit() = this + "\u2109"
 
     fun String.dateToDay(): String? {

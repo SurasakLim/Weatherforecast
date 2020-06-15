@@ -16,5 +16,15 @@
         android:id="@+id/mainWeatherFragment2"
         android:name="com.example.weatherforecast.ui.mainWeather.MainWeatherFragment"
         android:label="main_weather_fragment"
-        tools:layout="@layout/main_weather_fragment" />
+        app:defaultNavHost="true"
+        tools:layout="@layout/main_weather_fragment" >
+        <action
+            android:id="@+id/action_mainWeatherFragment2_to_wearterDetailFragment"
+            app:destination="@id/wearterDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/wearterDetailFragment"
+        android:name="com.example.weatherforecast.ui.mainWeather.detailWeather.WearterDetailFragment"
+        android:label="fragment_wearter_detail"
+        tools:layout="@layout/fragment_wearter_detail" />
 </navigation>
