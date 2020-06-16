@@ -21,7 +21,7 @@ class MainWeatherPresenter @Inject constructor(
         weatherUseCase.getServiceWeath(cityId,apiKey,object : WeathDataSourceRemoteInterface.RequestServiceCallback{
 
             override fun onLoading() {
-
+                view.onLoading()
             }
 
             override fun onSuccessRespose(weatherRes: WeathResponse<Weather>) {
@@ -33,6 +33,7 @@ class MainWeatherPresenter @Inject constructor(
                         } else {
                             view.onErrorWeather(weatherRes.errorMessage)
                         }
+                        view.onLoaded()
                     }
                 }
             }
@@ -41,6 +42,7 @@ class MainWeatherPresenter @Inject constructor(
                 launch {
                     withContext(Dispatchers.Main) {
                         view.onErrorWeather(weatherRes.errorMessage)
+                        view.onLoaded()
                     }
                 }
             }
@@ -49,6 +51,7 @@ class MainWeatherPresenter @Inject constructor(
                 launch {
                     withContext(Dispatchers.Main) {
                         view.onErrorWeather(messageError)
+                        view.onLoaded()
                     }
                 }
             }
@@ -57,12 +60,13 @@ class MainWeatherPresenter @Inject constructor(
                 launch {
                     withContext(Dispatchers.Main) {
                         view.onErrorWeather(messageError)
+                        view.onLoaded()
                     }
                 }
             }
 
             override fun onLoaded() {
-
+                view.onLoaded()
             }
 
         })

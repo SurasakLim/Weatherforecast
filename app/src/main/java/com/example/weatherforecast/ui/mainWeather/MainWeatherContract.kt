@@ -9,6 +9,8 @@ interface MainWeatherContract {
     interface View:MainWeatherContract {
         fun onShowWeather(data: Weather)
         fun onErrorWeather(message:String)
+        fun onLoading()
+        fun onLoaded()
     }
 
     interface Presenter: LifecycleObserver {
@@ -17,5 +19,9 @@ interface MainWeatherContract {
 
     interface ListnerNavigate: MainWeatherContract{
         fun onNavigateView(weatherDetial: WeatherDetial)
+    }
+
+    interface ViewController: MainWeatherContract {
+        fun onBackStack()
     }
 }

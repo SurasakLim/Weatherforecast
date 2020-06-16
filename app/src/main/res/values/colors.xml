@@ -6,4 +6,6 @@
     <color name="colorCaradWeather">#628fc6</color>
     <color name="colorWeatherMain">#0e43a4</color>
     <color name="colorWeatherItem">#F5428CD0</color>
+    <color name="colorDetiveItem">#666666</color>
+    <color name="colorActiveItem">#ffffff</color>
 </resources>

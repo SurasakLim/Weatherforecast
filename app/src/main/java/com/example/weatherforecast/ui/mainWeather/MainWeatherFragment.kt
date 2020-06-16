@@ -7,12 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -25,19 +22,13 @@ import kotlinx.android.synthetic.main.card_weath_main.*
 import kotlinx.android.synthetic.main.main_weather_fragment.*
 import javax.inject.Inject
 
-class MainWeatherFragment : DaggerFragment(), MainWeatherContract.View ,MainWeatherContract.ListnerNavigate {
+class MainWeatherFragment : Fragment() ,MainWeatherContract.ListnerNavigate,
+MainWeatherContract.ViewController {
 
-    private lateinit var navController: NavController
     private var adapterWeather: WeatherAdapter? = null
-
-    @Inject
-    lateinit var viewModelWeath: MainWeatherViewModel
-
-    @Inject
-    lateinit var presenter: MainWeatherPresenter
-
     private val formatC = "\u2013"
     private val formatF = "\u2019"
+    private lateinit var data: Weather
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -52,16 +43,14 @@ class MainWeatherFragment : DaggerFragment(), MainWeatherContract.View ,MainWeat
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val navHostFragment = childFragmentManager
-            .findFragmentById(R.id.mainWeatherFragment2) as NavHostFragment
-        navController = navHostFragment.navController
-
-        presenter.onGetWeatherData("London")
+        data = arguments?.get("weatherDetial") as Weather
+        setUpAdapter()
+        onShowWeather()
     }
 
     private fun setUpAdapter() {
 
-        adapterWeather = viewModelWeath.getGroupWeatherDay()?.let {
+        adapterWeather = data.list.let {
             WeatherAdapter(
                 it.toCollection(
                     mutableListOf()
@@ -81,34 +70,27 @@ class MainWeatherFragment : DaggerFragment(), MainWeatherContract.View ,MainWeat
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onShowWeather(data: Weather) {
+    fun onShowWeather() {
         setUpAdapter()
-        viewModelWeath.apply {
-            title_cityname.text = viewModelWeath.weather.value?.data?.city?.name
-            weath_status.text = viewModelWeath.weather.value?.data?.city?.name
-            getCurrentWeather()?.main?.let {
-                val tempMax = it.temp_max.toString().fromatTemperatureCelsius()
-                val tempMin = it.temp_min.toString().fromatTemperatureCelsius()
-                title_temp.text = it.temp.toString().fromatTemperatureCelsius()
+        data.apply {
+            title_cityname.text = data.city.name
+            weath_status.text = data.city.name
+            data.list[0].let {
+                val tempMax = it.main.temp_max.toString().fromatTemperatureCelsius()
+                val tempMin = it.main.temp_min.toString().fromatTemperatureCelsius()
+                title_temp.text = it.main.temp.toString().fromatTemperatureCelsius()
                 title_temp_sup.text = "$tempMax/$tempMin"
-                val humidity = it.humidity.toString()
+                val humidity = it.main.humidity.toString()
                 weath_status_sub.text = "Humidity $humidity %"
             }
 
-            getWeatherDetail()?.get(0).let { it ->
-                weath_status.text = it?.description
-                it?.icon?.let {
+            data.list[0].let { it ->
+                weath_status.text = it.weatherX[0].description
+                it.weatherX[0].icon.let {
                     Glide.with(this@MainWeatherFragment).load("http://openweathermap.org/img/wn/$it@2x.png")
                         .into(icon_weather)
                 }
             }
-        }
-        include.setOnClickListener {
-//            val dirct = MainWeatherFragmentDirections.actionMainWeatherFragment2ToWearterDetailFragment(
-//                viewModelWeath.weather.value?.data!!,
-//                viewModelWeath.weather.value?.data?.list?.get(0)!!
-//            )
-            it.findNavController().navigate(R.id.action_mainWeatherFragment2_to_wearterDetailFragment)
         }
 
 
@@ -119,11 +101,14 @@ class MainWeatherFragment : DaggerFragment(), MainWeatherContract.View ,MainWeat
         adapterWeather?.notifyDataSetChanged()
     }
 
-    override fun onErrorWeather(message: String) {
+    fun onErrorWeather(message: String) {
     }
 
     override fun onNavigateView(weatherDetial: WeatherDetial) {
 
+    }
+
+    override fun onBackStack() {
     }
 
 }

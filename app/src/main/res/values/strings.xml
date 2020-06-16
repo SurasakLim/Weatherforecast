@@ -3,4 +3,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="label_city_name">Enter city name</string>
+    <string name="title_f">\u2109</string>
+    <string name="title_c">℃</string>
+    <string name="tit_wind">WIND</string>
+    <string name="tit_feellike">FEELS LIKE</string>
+    <string name="tit_cloud">CLOUD</string>
+    <string name="tit_humity">HUMIDITY</string>
+    <string name="tit_snow">SNOW</string>
+    <string name="tit_view_curret">View weather detail</string>
 </resources>

@@ -8,6 +8,13 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 android {
     compileSdkVersion 29
     buildToolsVersion "30.0.0"
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility "1.8"
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 
     defaultConfig {
         applicationId "com.example.weatherforecast"
@@ -24,6 +31,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    dataBinding {
+        enabled = true
     }
 }
 

@@ -7,17 +7,37 @@ import com.example.weatherforecast.ui.mainWeather.model.Weather
 import com.example.weatherforecast.ui.mainWeather.model.WeatherDetial
 import com.example.weatherforecast.ui.mainWeather.model.WeatherX
 import com.example.weatherforecast.uitl.StringExtenion.dateToDay
+import com.example.weatherforecast.uitl.StringExtenion.celToFah
+import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureFahrenheit
+import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureCelsius
+import com.example.weatherforecast.uitl.StringExtenion.fahToCal
 
 class MainWeatherViewModel : ViewModel() {
     var weather = MutableLiveData<WeathResponse<Weather>>()
+    var mainTemp = MutableLiveData<Double>()
+    var tempFeelLike = MutableLiveData<Double>()
+    var untiTemporalChange = MutableLiveData<Boolean>()
 
     init {
+        mainTemp.value = 0.0
+        tempFeelLike.value = 0.0
+        untiTemporalChange.value = false
         weather.value = WeathResponse(false,"",Weather())
     }
+    fun getUnitChange() = untiTemporalChange.value
 
     fun getCurrentWeather() = weather.value?.data?.list?.get(0)
 
     fun getWeatherDetail() = weather.value?.data?.list?.get(0)?.weatherX
+
+    fun changeUntiTremp(data:String){
+
+    }
+
+    fun getCelsiusToFahrenheit(data: Double?): String = data?.celToFah().toString().fromatTemperatureFahrenheit()
+    fun getFahrenheitToCelsius(data: Double?): String =
+        if(untiTemporalChange.value!!) data?.fahToCal().toString().fromatTemperatureCelsius()
+    else data?.toString()?.fromatTemperatureCelsius()!!
 
     fun getGroupWeatherDay(): List<WeatherDetial>? {
         val data = weather.value?.data?.list

@@ -50,22 +50,22 @@ data class WeatherDetial(
     var dt_txt: String = "",
 
     @field:SerializedName("main")
-    val main: Main,
+    val main: Main = Main(),
 
     @field:SerializedName("rain")
-    val rain: Rain,
+    val rain: Rain = Rain(),
 
     @field:SerializedName("snow")
-    val snow: Snow,
+    val snow: Snow = Snow(),
 
     @field:SerializedName("sys")
-    val sys: Sys,
+    val sys: Sys = Sys(),
 
     @field:SerializedName("weather")
-    val weatherX: List<WeatherX>,
+    val weatherX: List<WeatherX> = listOf(),
 
     @field:SerializedName("wind")
-    val wind: Wind
+    val wind: Wind = Wind()
 ) : Parcelable
 
 @Parcelize
@@ -88,6 +88,9 @@ data class Clouds(
 data class Main(
     @field:SerializedName("grnd_level")
     val grnd_level: Double = 0.0,
+
+    @field:SerializedName("feels_like")
+    val feels_like: Double = 0.0,
 
     @field:SerializedName("humidity")
     val humidity: Int = 0,

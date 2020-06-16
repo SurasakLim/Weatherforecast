@@ -6,11 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.fragment.app.FragmentContainerView
+    <FrameLayout
         android:id="@+id/mainWeatherFragment"
-        android:name="com.example.weatherforecast.ui.mainWeather.MainWeatherFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:navGraph="@navigation/nav_weather" />
+        android:layout_height="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

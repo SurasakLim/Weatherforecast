@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModelProviders
 import com.example.weatherforecast.ui.domain.WeathDataSourceRemote
 import com.example.weatherforecast.ui.domain.WeathUseCase
-import com.example.weatherforecast.ui.mainWeather.MainWeatherContract
-import com.example.weatherforecast.ui.mainWeather.MainWeatherFragment
-import com.example.weatherforecast.ui.mainWeather.MainWeatherPresenter
-import com.example.weatherforecast.ui.mainWeather.MainWeatherViewModel
+import com.example.weatherforecast.ui.mainWeather.*
 import dagger.Module
 import dagger.Provides
 
@@ -15,7 +12,7 @@ import dagger.Provides
 class WeatherFragmentModule {
 
     @Provides
-    fun provideWeatherView(weatherFragment: MainWeatherFragment): MainWeatherContract.View {
+    fun provideWeatherView(weatherFragment: WearterDetailFragment): MainWeatherContract.View {
         return weatherFragment
     }
 
@@ -30,7 +27,7 @@ class WeatherFragmentModule {
     }
 
     @Provides
-    fun provideWeatherModel(fragment: MainWeatherFragment): MainWeatherViewModel {
+    fun provideWeatherModel(fragment: WearterDetailFragment): MainWeatherViewModel {
         return ViewModelProviders.of(fragment.requireActivity())[MainWeatherViewModel::class.java]
     }
 }
