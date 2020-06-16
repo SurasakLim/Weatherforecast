@@ -10,66 +10,70 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class MainWeatherPresenter @Inject constructor(
-    var view:MainWeatherContract.View,
-    private val weatherUseCase:WeathUseCase,
+    var view: MainWeatherContract.View,
+    private val weatherUseCase: WeathUseCase,
     private val viewModel: MainWeatherViewModel
-):MainWeatherContract.Presenter ,CoroutineScope{
+) : MainWeatherContract.Presenter, CoroutineScope {
 
     private val apiKey = ServiceApi.ApiKeyProvid()
 
-    override fun onGetWeatherData(cityId:String) {
-        weatherUseCase.getServiceWeath(cityId,apiKey,object : WeathDataSourceRemoteInterface.RequestServiceCallback{
+    override fun onGetWeatherData(cityId: String) {
+        view.onLoading()
+        weatherUseCase.getServiceWeath(
+            cityId,
+            apiKey,
+            object : WeathDataSourceRemoteInterface.RequestServiceCallback {
 
-            override fun onLoading() {
-                view.onLoading()
-            }
+                override fun onLoading() {
 
-            override fun onSuccessRespose(weatherRes: WeathResponse<Weather>) {
-                launch {
-                    withContext(Dispatchers.Main){
-                        if(weatherRes.success){
-                            viewModel.weather.value = weatherRes
-                            view.onShowWeather(weatherRes.data)
-                        } else {
-                            view.onErrorWeather(weatherRes.errorMessage)
+                }
+
+                override fun onSuccessRespose(weatherRes: WeathResponse<Weather>) {
+                    launch {
+                        withContext(Dispatchers.Main) {
+                            if (weatherRes.success) {
+                                viewModel.weather.value = weatherRes
+                                view.onShowWeather(weatherRes.data)
+                            } else {
+                                view.onErrorWeather(weatherRes.errorMessage)
+                            }
+                            view.onLoaded()
                         }
-                        view.onLoaded()
                     }
                 }
-            }
 
-            override fun onErrorResponse(weatherRes: WeathResponse<Weather>) {
-                launch {
-                    withContext(Dispatchers.Main) {
-                        view.onErrorWeather(weatherRes.errorMessage)
-                        view.onLoaded()
+                override fun onErrorResponse(weatherRes: WeathResponse<Weather>) {
+                    launch {
+                        withContext(Dispatchers.Main) {
+                            view.onErrorWeather(weatherRes.errorMessage)
+                            view.onLoaded()
+                        }
                     }
                 }
-            }
 
-            override fun onNetworkUnavailable(messageError: String) {
-                launch {
-                    withContext(Dispatchers.Main) {
-                        view.onErrorWeather(messageError)
-                        view.onLoaded()
+                override fun onNetworkUnavailable(messageError: String) {
+                    launch {
+                        withContext(Dispatchers.Main) {
+                            view.onErrorWeather(messageError)
+                            view.onLoaded()
+                        }
                     }
                 }
-            }
 
-            override fun onError(messageError: String) {
-                launch {
-                    withContext(Dispatchers.Main) {
-                        view.onErrorWeather(messageError)
-                        view.onLoaded()
+                override fun onError(messageError: String) {
+                    launch {
+                        withContext(Dispatchers.Main) {
+                            view.onErrorWeather(messageError)
+                            view.onLoaded()
+                        }
                     }
                 }
-            }
 
-            override fun onLoaded() {
-                view.onLoaded()
-            }
+                override fun onLoaded() {
+                    view.onLoaded()
+                }
 
-        })
+            })
     }
 
     val job = Job()

@@ -1,7 +1,6 @@
 package com.example.weatherforecast.di.serviceModule.module
 
 import com.example.weatherforecast.MainActivity
-import com.example.weatherforecast.ui.mainWeather.MainWeatherFragment
 import dagger.Binds
 import dagger.Module
 import dagger.Subcomponent

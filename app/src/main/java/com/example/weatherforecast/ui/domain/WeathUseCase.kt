@@ -18,6 +18,7 @@ class WeathUseCase @Inject constructor(var dataSourceRemote: WeathDataSourceRemo
                                  callBack: WeathDataSourceRemoteInterface.RequestServiceCallback) {
         val dataResponse = WeathResponse(false,"",Weather())
 
+        callBack.onLoaded()
         NetworkBoundResourceObserver(appExecutors, object : NetworkBoundResourceObserver.Callback<Weather,Response<Weather>>(){
             override fun onCreateObservable(): Observable<Response<Weather>> {
                 return dataSourceRemote.onRequestWeathService(cityID,apiKey)

@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.weatherforecast.R
 import com.example.weatherforecast.databinding.FragmentWearterDetailBinding
 import com.example.weatherforecast.ui.mainWeather.model.Weather
+import com.example.weatherforecast.uitl.StringExtenion.onDone
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_wearter_detail.*
 import javax.inject.Inject
@@ -38,15 +39,27 @@ class WearterDetailFragment : DaggerFragment(),MainWeatherContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.onGetWeatherData("London")
+        if(viewModelWeath.weather.value?.data?.list?.isNotEmpty()!!){
+            onShowWeather(viewModelWeath.weather.value?.data!!)
+        } else {
+            presenter.onGetWeatherData("London")
+            bg_loading.visibility =View.VISIBLE
+            progressBar.visibility =View.VISIBLE
+        }
         binding.apply {
             lifecycleOwner = this@WearterDetailFragment
         }
+
         setDefalutUi()
     }
 
     fun setDefalutUi(){
         editText.setText("London")
+        editText.onDone{
+            bg_loading.visibility =View.VISIBLE
+            progressBar.visibility =View.VISIBLE
+            presenter.onGetWeatherData(editText.text.toString())
+        }
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
