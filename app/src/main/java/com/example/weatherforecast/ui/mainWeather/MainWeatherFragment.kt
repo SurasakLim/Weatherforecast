@@ -11,14 +11,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherforecast.R
+import com.example.weatherforecast.ui.mainWeather.adapter.WeatherExpanAdapter
 import com.example.weatherforecast.ui.mainWeather.model.Weather
 import com.example.weatherforecast.ui.mainWeather.model.WeatherDetial
+import com.example.weatherforecast.ui.mainWeather.model.WeatherList
 import com.example.weatherforecast.uitl.StringExtenion.celToFah
 import com.example.weatherforecast.uitl.StringExtenion.dateToDay
 import com.example.weatherforecast.uitl.StringExtenion.fahToCal
 import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureCelsius
 import com.example.weatherforecast.uitl.StringExtenion.getCelsiusToFahrenheit
 import com.example.weatherforecast.uitl.StringExtenion.getFahrenheitToCelsius
+import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 import kotlinx.android.synthetic.main.card_weath_main.*
 import kotlinx.android.synthetic.main.main_weather_fragment.*
 import java.time.LocalDateTime
@@ -29,6 +32,7 @@ import java.util.*
 class MainWeatherFragment : Fragment(), MainWeatherContract.ListnerNavigate,
     MainWeatherContract.ViewController {
 
+    private lateinit var adapterExpan: WeatherExpanAdapter
     private var adapterWeather: WeatherAdapter? = null
     private var switcherTemp = false
     private lateinit var data: Weather
@@ -61,6 +65,19 @@ class MainWeatherFragment : Fragment(), MainWeatherContract.ListnerNavigate,
             }
         }.toCollection(arrayListOf())
         dataParss = dataParss.distinctBy { it.dt_txt }.toCollection(arrayListOf())
+
+        val dataExan = arrayListOf<WeatherList>()
+        val head = WeatherList()
+        dataParss.forEach {
+            head.nameTitleDay = it.dt_txt
+            head.tempMax = it.main.temp_max.toString()
+            head.tempMin = it.main.temp_min.toString()
+            head.dataChild = data.list.filter {child->
+                child.dt_txt == it.dt_txt
+            }.toCollection(arrayListOf())
+            dataExan.add(head)
+        }
+        adapterExpan = WeatherExpanAdapter(dataExan)
 
         adapterWeather = WeatherAdapter(
             dataParss.toCollection(

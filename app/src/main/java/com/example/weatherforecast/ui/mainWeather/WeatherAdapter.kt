@@ -55,7 +55,7 @@ class WeatherAdapter(var item:MutableList<WeatherDetial>,var navigate: MainWeath
                      tempMin = weatherDetial.main.temp_min.toString().fromatTemperatureCelsius()
                 }
 
-                textView4.text = "$tempMax/$tempMin"
+                txt_temp_head.text = "$tempMax/$tempMin"
                 imageView.loadIconImg(holder.view.rootView.context,weatherDetial.weatherX[0].icon)
                 current_weather_select.setOnClickListener {
                     navigate.onNavigateView(weatherDetial)
