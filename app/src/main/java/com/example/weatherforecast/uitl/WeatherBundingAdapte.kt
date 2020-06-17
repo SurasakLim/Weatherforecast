@@ -56,7 +56,7 @@ object WeatherBundingAdapte {
 
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            val outputFormat = DateTimeFormatter.ofPattern("EEEE-dd")
+            val outputFormat = DateTimeFormatter.ofPattern("EEEE dd")
 
             LocalDate.parse(this, inputFormat).format(outputFormat)
         } else {

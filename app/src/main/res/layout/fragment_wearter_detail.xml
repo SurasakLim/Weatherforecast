@@ -103,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/title_f"
-            android:textColor="@android:color/background_dark"
+            android:textColor="@color/colorDetiveItem"
             app:layout_constraintBottom_toTopOf="@+id/title_city_name"
             app:layout_constraintStart_toStartOf="@+id/guideline4" />
 
@@ -248,7 +248,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:textSize="24sp"
-        android:txtFormatDay="@{currentItem.component4().get(0).component3()}"
         android:shadowDx="@android:integer/config_shortAnimTime"
         android:shadowRadius="@android:integer/config_mediumAnimTime"
         android:shadowColor="@color/cardview_shadow_start_color"

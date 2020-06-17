@@ -12,9 +12,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.weatherforecast.R
 import com.example.weatherforecast.databinding.FragmentWearterDetailBinding
 import com.example.weatherforecast.ui.mainWeather.model.Weather
+import com.example.weatherforecast.uitl.DialogWarning
+import com.example.weatherforecast.uitl.StringExtenion.dateToDay
 import com.example.weatherforecast.uitl.StringExtenion.onDone
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_wearter_detail.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 
@@ -68,6 +72,9 @@ class WearterDetailFragment : DaggerFragment(),MainWeatherContract.View {
             currentItem = viewModelWeath.weather.value?.data
             viewModel = viewModelWeath
         }
+        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val currentDateTime = LocalDateTime.now().format(formatter).dateToDay()
+        textView15.text = currentDateTime
         viewModelWeath.apply {
             mainTemp.value = data.list[0].main.temp
             tempFeelLike.value = data.list[0].main.feels_like
@@ -93,6 +100,9 @@ class WearterDetailFragment : DaggerFragment(),MainWeatherContract.View {
     }
 
     override fun onErrorWeather(message: String) {
+        this@WearterDetailFragment.context?.let {
+            DialogWarning.Builder(it).create(message)
+        }
     }
 
     override fun onLoading() {

@@ -4,6 +4,7 @@ import android.os.Build
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import java.lang.Exception
 import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -41,18 +42,17 @@ object StringExtenion {
         }
     }
 
-    fun Double.celToFah() = abs(((this - 32) * 5) / 9)
-    fun Double.fahToCal() = ((this * 9) / 5) + 32
+    fun Double.celToFah() = abs( (9/5.0 * this) + 32)
+    fun Double.fahToCal() = 5/9.0 * (this - 32)
 
     fun String.dateToDay(): String? {
 
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        return try {
             val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             val outputFormat = DateTimeFormatter.ofPattern("EEEE dd")
-
             LocalDate.parse(this, inputFormat).format(outputFormat)
-        } else {
-            TODO("VERSION.SDK_INT < O")
+        } catch (e :Exception){
+            this
         }
     }
 }

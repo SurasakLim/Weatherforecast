@@ -12,4 +12,5 @@
     <string name="tit_humity">HUMIDITY</string>
     <string name="tit_snow">SNOW</string>
     <string name="tit_view_curret">View weather detail</string>
+    <string name="by_ok">OK</string>
 </resources>
