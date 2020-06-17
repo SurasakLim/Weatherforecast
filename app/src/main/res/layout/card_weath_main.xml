@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:alpha="50"
     android:backgroundTint="@color/colorCaradWeather"
     app:cardCornerRadius="10dp"
-    android:layout_height="150dp"
-    android:alpha="50"
     tools:ignore="PrivateResource">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_weather_view"
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/icon_weather"
             android:layout_width="85dp"
             android:layout_height="75dp"
-            android:layout_marginStart="24dp"
-            android:background="@drawable/ic_clouds_main"
+            android:layout_marginStart="28dp"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.506" />
+            app:layout_constraintVertical_bias="0.712"
+            tools:srcCompat="@drawable/ic_clouds_main" />
 
         <TextView
             android:id="@+id/title_cityname"
@@ -61,6 +60,7 @@
             android:textColor="@color/cardview_light_background"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="@+id/weath_status"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/weath_status"
             app:layout_constraintTop_toBottomOf="@+id/weath_status"
             tools:text="weather status" />
@@ -76,14 +76,13 @@
             android:id="@+id/title_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
             android:textColor="@android:color/white"
             android:textSize="40sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.31"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/title_cityname"
             tools:text="32 \u2103" />
 
         <TextView
@@ -102,6 +101,47 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="126dp" />
+
+        <TextView
+            android:id="@+id/txt_date_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            tools:text="Date Now"
+            app:layout_constraintBottom_toTopOf="@+id/icon_weather"
+            app:layout_constraintStart_toStartOf="@+id/icon_weather"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <LinearLayout
+            android:id="@+id/switch_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/title_temp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tit_temp_f"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_f"
+                android:textColor="@color/colorDetiveItem"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tit_temp_c"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_c"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toStartOf="@+id/tit_temp_f" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

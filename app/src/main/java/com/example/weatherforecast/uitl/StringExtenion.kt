@@ -25,6 +25,9 @@ object StringExtenion {
         return decimalFormat.format(this.toDouble()) + "\u2109"
     }
 
+    fun getCelsiusToFahrenheit(data: Double?): String = data?.celToFah().toString().fromatTemperatureFahrenheit()
+    fun getFahrenheitToCelsius(data: Double?): String = data?.fahToCal().toString().fromatTemperatureCelsius()
+
     fun EditText.onDone(callback: (v : View) -> Unit) {
         // These lines optional if you don't want to set in Xml
         imeOptions = EditorInfo.IME_ACTION_DONE
@@ -45,7 +48,7 @@ object StringExtenion {
 
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            val outputFormat = DateTimeFormatter.ofPattern("EEEE-dd")
+            val outputFormat = DateTimeFormatter.ofPattern("EEEE dd")
 
             LocalDate.parse(this, inputFormat).format(outputFormat)
         } else {

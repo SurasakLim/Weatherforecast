@@ -16,20 +16,26 @@ import com.bumptech.glide.Glide
 import com.example.weatherforecast.R
 import com.example.weatherforecast.ui.mainWeather.model.Weather
 import com.example.weatherforecast.ui.mainWeather.model.WeatherDetial
+import com.example.weatherforecast.uitl.StringExtenion.celToFah
+import com.example.weatherforecast.uitl.StringExtenion.dateToDay
+import com.example.weatherforecast.uitl.StringExtenion.fahToCal
 import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureCelsius
+import com.example.weatherforecast.uitl.StringExtenion.getCelsiusToFahrenheit
+import com.example.weatherforecast.uitl.StringExtenion.getFahrenheitToCelsius
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.card_weath_main.*
 import kotlinx.android.synthetic.main.main_weather_fragment.*
+import java.time.LocalDateTime
+import java.util.*
 import javax.inject.Inject
 
 class MainWeatherFragment : Fragment() ,MainWeatherContract.ListnerNavigate,
 MainWeatherContract.ViewController {
 
     private var adapterWeather: WeatherAdapter? = null
-    private val formatC = "\u2013"
-    private val formatF = "\u2019"
+    private var switcherTemp = false
     private lateinit var data: Weather
-
+    private var dataParss : ArrayList<WeatherDetial> = arrayListOf()
     override fun onAttach(context: Context) {
         super.onAttach(context)
     }
@@ -50,13 +56,20 @@ MainWeatherContract.ViewController {
 
     private fun setUpAdapter() {
 
-        adapterWeather = data.list.let {
-            WeatherAdapter(
-                it.toCollection(
-                    mutableListOf()
-                ),this
-            )
-        }
+        val currentDateTime = LocalDateTime.now().toString().dateToDay()
+        txt_date_now.text = currentDateTime
+        dataParss = data.list.apply {
+            this.map {
+                it.dt_txt = it.dt_txt.dateToDay()!!
+            }
+        }.toCollection(arrayListOf())
+
+        dataParss.distinctBy{it.dt_txt}
+        adapterWeather = WeatherAdapter(
+            dataParss.toCollection(
+                mutableListOf()
+            ),this
+        )
         list_future_weather.apply {
             val layoutManagerView: RecyclerView.LayoutManager =
                 LinearLayoutManager(this@MainWeatherFragment.context)
@@ -71,7 +84,6 @@ MainWeatherContract.ViewController {
 
     @SuppressLint("SetTextI18n")
     fun onShowWeather() {
-        setUpAdapter()
         data.apply {
             title_cityname.text = data.city.name
             weath_status.text = data.city.name
@@ -91,6 +103,38 @@ MainWeatherContract.ViewController {
                         .into(icon_weather)
                 }
             }
+        }
+        switch_temp.setOnClickListener {
+            data.list[0].let { it ->
+                var mainTemp = ""
+                var tempMax = ""
+                var tempMin = ""
+                if(switcherTemp){
+                    switcherTemp = !switcherTemp
+                    mainTemp = getCelsiusToFahrenheit(it.main.temp)
+                    tempMax = getCelsiusToFahrenheit(it.main.temp_max)
+                    tempMin = getCelsiusToFahrenheit(it.main.temp_min)
+                    dataParss.map {
+                        it.main.temp = it.main.temp.celToFah()
+                    }
+                } else {
+                    switcherTemp = !switcherTemp
+                    mainTemp = getFahrenheitToCelsius(it.main.temp)
+                    tempMax = getFahrenheitToCelsius(it.main.temp_max)
+                    tempMin = getFahrenheitToCelsius(it.main.temp_min)
+                    dataParss.map {
+                        it.main.temp = it.main.temp.fahToCal()
+                    }
+                }
+                adapterWeather?.apply {
+                    setDataChange(dataParss)
+                    notifyDataSetChanged()
+                }
+
+                title_temp.text = mainTemp
+                title_temp_sup.text = "$tempMax/$tempMin"
+            }
+
         }
 
 

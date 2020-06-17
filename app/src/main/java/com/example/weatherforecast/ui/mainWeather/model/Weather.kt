@@ -7,152 +7,152 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Weather(
     @field:SerializedName("city")
-    val city: City = City(),
+    var city: City = City(),
 
     @field:SerializedName("cnt")
-    val cnt: Int = 0,
+    var cnt: Int = 0,
 
     @field:SerializedName("cod")
-    val cod: String = "",
+    var cod: String = "",
 
     @field:SerializedName("list")
-    val list: List<WeatherDetial> = listOf(),
+    var list: List<WeatherDetial> = listOf(),
 
     @field:SerializedName("message")
-    val message: Double = 0.0
+    var message: Double = 0.0
 ) : Parcelable
 
 @Parcelize
 data class City(
     @field:SerializedName("coord")
-    val coord: Coord = Coord(),
+    var coord: Coord = Coord(),
 
     @field:SerializedName("country")
-    val country: String = "",
+    var country: String = "",
 
     @field:SerializedName("id")
-    val id: Int = 0,
+    var id: Int = 0,
 
     @field:SerializedName("name")
-    val name: String = ""
+    var name: String = ""
 ) : Parcelable
 
 @Parcelize
 data class WeatherDetial(
 
     @field:SerializedName("clouds")
-    val clouds: Clouds = Clouds(),
+    var clouds: Clouds = Clouds(),
 
     @field:SerializedName("dt")
-    val dt: Int = 0,
+    var dt: Int = 0,
 
     @field:SerializedName("dt_txt")
     var dt_txt: String = "",
 
     @field:SerializedName("main")
-    val main: Main = Main(),
+    var main: Main = Main(),
 
     @field:SerializedName("rain")
-    val rain: Rain = Rain(),
+    var rain: Rain = Rain(),
 
     @field:SerializedName("snow")
-    val snow: Snow = Snow(),
+    var snow: Snow = Snow(),
 
     @field:SerializedName("sys")
-    val sys: Sys = Sys(),
+    var sys: Sys = Sys(),
 
     @field:SerializedName("weather")
-    val weatherX: List<WeatherX> = listOf(),
+    var weatherX: List<WeatherX> = listOf(),
 
     @field:SerializedName("wind")
-    val wind: Wind = Wind()
+    var wind: Wind = Wind()
 ) : Parcelable
 
 @Parcelize
 data class Coord(
     @field:SerializedName("lat")
-    val lat: Double = 0.0,
+    var lat: Double = 0.0,
 
     @field:SerializedName("lon")
-    val lon: Double = 0.0
+    var lon: Double = 0.0
 ) : Parcelable
 
 @Parcelize
 data class Clouds(
     @field:SerializedName("all")
-    val all: Int = 0
+    var all: Int = 0
 ) : Parcelable
 
 
 @Parcelize
 data class Main(
     @field:SerializedName("grnd_level")
-    val grnd_level: Double = 0.0,
+    var grnd_level: Double = 0.0,
 
     @field:SerializedName("feels_like")
-    val feels_like: Double = 0.0,
+    var feels_like: Double = 0.0,
 
     @field:SerializedName("humidity")
-    val humidity: Int = 0,
+    var humidity: Int = 0,
 
     @field:SerializedName("pressure")
-    val pressure: Double = 0.0,
+    var pressure: Double = 0.0,
 
     @field:SerializedName("sea_level")
-    val sea_level: Double = 0.0,
+    var sea_level: Double = 0.0,
 
     @field:SerializedName("temp")
-    val temp: Double = 0.0,
+    var temp: Double = 0.0,
 
     @field:SerializedName("temp_kf")
-    val temp_kf: Double = 0.0,
+    var temp_kf: Double = 0.0,
 
     @field:SerializedName("temp_max")
-    val temp_max: Double = 0.0,
+    var temp_max: Double = 0.0,
 
     @field:SerializedName("temp_min")
-    val temp_min: Double = 0.0
+    var temp_min: Double = 0.0
 ) : Parcelable
 
 @Parcelize
 data class Rain(
     @field:SerializedName("3h")
-    val `3h`: Double = 0.0
+    var `3h`: Double = 0.0
 ) : Parcelable
 
 @Parcelize
 data class Snow(
     @field:SerializedName("3h")
-    val `3h`: Double = 0.0
+    var `3h`: Double = 0.0
 ) : Parcelable
 
 
 @Parcelize
 data class Sys(
     @field:SerializedName("pod")
-    val pod: String = ""
+    var pod: String = ""
 ) : Parcelable
 
 @Parcelize
 data class WeatherX(
     @field:SerializedName("description")
-    val description: String = "",
+    var description: String = "",
 
     @field:SerializedName("icon")
-    val icon: String = "",
+    var icon: String = "",
 
     @field:SerializedName("id")
-    val id: Int = 0,
+    var id: Int = 0,
 
     @field:SerializedName("main")
-    val main: String = ""
+    var main: String = ""
 ) : Parcelable
 
 @Parcelize
 data class Wind(
     @field:SerializedName("deg")
-    val deg: Double = 0.0,
+    var deg: Double = 0.0,
 
     @field:SerializedName("speed")
-    val speed: Double = 0.0
+    var speed: Double = 0.0
 ) : Parcelable
