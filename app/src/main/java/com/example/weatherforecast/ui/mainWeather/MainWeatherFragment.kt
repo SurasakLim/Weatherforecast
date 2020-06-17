@@ -79,16 +79,16 @@ class MainWeatherFragment : Fragment(), MainWeatherContract.ListnerNavigate,
         }
         adapterExpan = WeatherExpanAdapter(dataExan)
 
-        adapterWeather = WeatherAdapter(
-            dataParss.toCollection(
-                mutableListOf()
-            ), this
-        )
+//        adapterWeather = WeatherAdapter(
+//            dataParss.toCollection(
+//                mutableListOf()
+//            ), this
+//        )
         list_future_weather.apply {
             val layoutManagerView: RecyclerView.LayoutManager =
                 LinearLayoutManager(this@MainWeatherFragment.context)
             layoutManager = layoutManagerView
-            adapter = adapterWeather
+            adapter = adapterExpan
         }
     }
 
@@ -117,9 +117,9 @@ class MainWeatherFragment : Fragment(), MainWeatherContract.ListnerNavigate,
         }
         switch_temp.setOnClickListener {
             dataParss[0].let { it ->
-                var mainTemp = ""
-                var tempMax = ""
-                var tempMin = ""
+                val mainTemp: String
+                val tempMax: String
+                val tempMin: String
                 if (switcherTemp) {
                     switcherTemp = !switcherTemp
                     mainTemp = getFahrenheitToCelsius(it.main.temp)
@@ -166,8 +166,6 @@ class MainWeatherFragment : Fragment(), MainWeatherContract.ListnerNavigate,
         adapterWeather?.notifyDataSetChanged()
     }
 
-    fun onErrorWeather(message: String) {
-    }
 
     override fun onNavigateView(weatherDetial: WeatherDetial) {
 

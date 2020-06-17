@@ -1,5 +1,6 @@
 package com.example.weatherforecast.ui.mainWeather
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -41,12 +42,13 @@ class WeatherAdapter(var item:MutableList<WeatherDetial>,var navigate: MainWeath
     }
 
     inner class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
+        @SuppressLint("SetTextI18n")
         fun bindData(weatherDetial: WeatherDetial, holder: ViewHolder
         ) {
             view.apply {
                 tit_day.text = weatherDetial.dt_txt
-                var tempMax =""
-                var tempMin = ""
+                val tempMax: String
+                val tempMin: String
                 if(switcherTemp){
                      tempMax = weatherDetial.main.temp_max.toString().fromatTemperatureFahrenheit()
                      tempMin = weatherDetial.main.temp_min.toString().fromatTemperatureFahrenheit()

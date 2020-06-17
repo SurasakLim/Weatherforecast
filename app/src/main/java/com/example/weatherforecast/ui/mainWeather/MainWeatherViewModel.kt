@@ -24,29 +24,21 @@ class MainWeatherViewModel : ViewModel() {
         untiTemporalChange.value = false
         weather.value = WeathResponse(false,"",Weather())
     }
-    fun getUnitChange() = untiTemporalChange.value
 
-    fun getCurrentWeather() = weather.value?.data?.list?.get(0)
-
-    fun getWeatherDetail() = weather.value?.data?.list?.get(0)?.weatherX
-
-    fun changeUntiTremp(data:String){
-
-    }
 
     fun getCelsiusToFahrenheit(data: Double?): String = data?.celToFah().toString().fromatTemperatureFahrenheit()
     fun getFahrenheitToCelsius(data: Double?): String =
         if(untiTemporalChange.value!!) data?.fahToCal().toString().fromatTemperatureCelsius()
     else data?.toString()?.fromatTemperatureCelsius()!!
 
-    fun getGroupWeatherDay(): List<WeatherDetial>? {
-        val data = weather.value?.data?.list
-        data?.forEach {
-            it.dt_txt = it.dt_txt.dateToDay()!!
-        }
-        data?.distinctBy{it.dt_txt}
-        return data?.distinctBy {
-            it.dt_txt
-        }
-    }
+//    fun getGroupWeatherDay(): List<WeatherDetial>? {
+//        val data = weather.value?.data?.list
+//        data?.forEach {
+//            it.dt_txt = it.dt_txt.dateToDay()!!
+//        }
+//        data?.distinctBy{it.dt_txt}
+//        return data?.distinctBy {
+//            it.dt_txt
+//        }
+//    }
 }

@@ -67,7 +67,7 @@ object ServiceGenerator {
             httpClient.hostnameVerifier { _, _ -> true }
 
         } catch (e: Exception) {
-            Log.e("Error",e.message)
+            Log.e("Error",e.message!!)
         }
 
         val logger = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message -> Log.i("Error",message) })
