@@ -27,19 +27,18 @@ import kotlinx.android.synthetic.main.main_weather_fragment.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.ArrayList
 
 
-class MainWeatherFragment : Fragment(), MainWeatherContract.ListnerNavigate,
-    MainWeatherContract.ViewController {
+class MainWeatherFragment : Fragment(), WeatherPresenterContract.ViewWeather {
 
+    private lateinit var presenter: WeatherPresenter
     private lateinit var adapterExpan: WeatherExpanAdapter
     private var adapterWeather: WeatherAdapter? = null
     private var switcherTemp = false
     private lateinit var data: Weather
     private var dataParss: ArrayList<WeatherDetial> = arrayListOf()
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,32 +50,75 @@ class MainWeatherFragment : Fragment(), MainWeatherContract.ListnerNavigate,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         data = arguments?.get("weatherDetial") as Weather
+        presenter = WeatherPresenter(this)
         setUpAdapter()
-        onShowWeather()
     }
 
     private fun setUpAdapter() {
         val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val currentDateTime = LocalDateTime.now().format(formatter).dateToDay()
         txt_date_now.text = currentDateTime
-        dataParss = data.list.apply {
-            this.map {
-                it.dt_txt = it.dt_txt.dateToDay()!!
-            }
-        }.toCollection(arrayListOf())
-        dataParss = dataParss.distinctBy { it.dt_txt }.toCollection(arrayListOf())
+        presenter.onGroupSetData(data)
+        onShowWeather()
+    }
 
-        val dataExan = arrayListOf<WeatherList>()
-        val head = WeatherList()
-        dataParss.forEach {
-            head.nameTitleDay = it.dt_txt
-            head.tempMax = it.main.temp_max.toString()
-            head.tempMin = it.main.temp_min.toString()
-            head.dataChild = data.list.filter {child->
-                child.dt_txt == it.dt_txt
-            }.toCollection(arrayListOf())
-            dataExan.add(head)
+    @SuppressLint("SetTextI18n", "UseRequireInsteadOfGet")
+    fun onShowWeather() {
+        data.apply {
+            title_cityname.text = data.city.name
+            weath_status.text = data.city.name
+            presenter.getDataGroup()[0].let {
+                val tempMax = it.main.temp_max.toString().fromatTemperatureCelsius()
+                val tempMin = it.main.temp_min.toString().fromatTemperatureCelsius()
+                title_temp.text = it.main.temp.toString().fromatTemperatureCelsius()
+                title_temp_sup.text = "$tempMax/$tempMin"
+                val humidity = it.main.humidity.toString()
+                weath_status_sub.text = "Humidity $humidity %"
+            }
+
+            presenter.getDataGroup()[0].let { it ->
+                weath_status.text = it.weatherX[0].description
+                it.weatherX[0].icon.let {
+                    Glide.with(this@MainWeatherFragment)
+                        .load("http://openweathermap.org/img/wn/$it@2x.png")
+                        .into(icon_weather)
+                }
+            }
         }
+        switch_temp.setOnClickListener {
+            data.list[0].let { it ->
+                val mainTemp: String
+                val tempMax: String
+                val tempMin: String
+                if (switcherTemp) {
+                    switcherTemp = !switcherTemp
+                    mainTemp = getFahrenheitToCelsius(it.main.temp)
+                    tempMax = getFahrenheitToCelsius(it.main.temp_max)
+                    tempMin = getFahrenheitToCelsius(it.main.temp_min)
+                    tit_temp_f_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorDetiveItem)!!)
+                    tit_temp_c_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorActiveItem)!!)
+
+                } else {
+                    switcherTemp = !switcherTemp
+                    mainTemp = getCelsiusToFahrenheit(it.main.temp)
+                    tempMax = getCelsiusToFahrenheit(it.main.temp_max)
+                    tempMin = getCelsiusToFahrenheit(it.main.temp_min)
+                    tit_temp_f_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorActiveItem)!!)
+                    tit_temp_c_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorDetiveItem)!!)
+
+                }
+                adapterExpan.switchWemp()
+                title_temp.text = mainTemp
+                title_temp_sup.text = "$tempMax/$tempMin"
+            }
+
+        }
+
+
+    }
+
+
+    override fun onSetDataAdapter(dataExan: ArrayList<WeatherList>) {
         adapterExpan = WeatherExpanAdapter(dataExan)
 
 //        adapterWeather = WeatherAdapter(
@@ -90,88 +132,6 @@ class MainWeatherFragment : Fragment(), MainWeatherContract.ListnerNavigate,
             layoutManager = layoutManagerView
             adapter = adapterExpan
         }
-    }
-
-    @SuppressLint("SetTextI18n", "UseRequireInsteadOfGet")
-    fun onShowWeather() {
-        data.apply {
-            title_cityname.text = data.city.name
-            weath_status.text = data.city.name
-            dataParss[0].let {
-                val tempMax = it.main.temp_max.toString().fromatTemperatureCelsius()
-                val tempMin = it.main.temp_min.toString().fromatTemperatureCelsius()
-                title_temp.text = it.main.temp.toString().fromatTemperatureCelsius()
-                title_temp_sup.text = "$tempMax/$tempMin"
-                val humidity = it.main.humidity.toString()
-                weath_status_sub.text = "Humidity $humidity %"
-            }
-
-            dataParss[0].let { it ->
-                weath_status.text = it.weatherX[0].description
-                it.weatherX[0].icon.let {
-                    Glide.with(this@MainWeatherFragment)
-                        .load("http://openweathermap.org/img/wn/$it@2x.png")
-                        .into(icon_weather)
-                }
-            }
-        }
-        switch_temp.setOnClickListener {
-            dataParss[0].let { it ->
-                val mainTemp: String
-                val tempMax: String
-                val tempMin: String
-                if (switcherTemp) {
-                    switcherTemp = !switcherTemp
-                    mainTemp = getFahrenheitToCelsius(it.main.temp)
-                    tempMax = getFahrenheitToCelsius(it.main.temp_max)
-                    tempMin = getFahrenheitToCelsius(it.main.temp_min)
-                    tit_temp_f_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorDetiveItem)!!)
-                    tit_temp_c_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorActiveItem)!!)
-
-                    dataParss.map {
-                        it.main.temp = it.main.temp.fahToCal()
-                        it.main.temp_max = it.main.temp_max.fahToCal()
-                        it.main.temp_min = it.main.temp_min.fahToCal()
-                    }
-
-                } else {
-                    switcherTemp = !switcherTemp
-                    mainTemp = getCelsiusToFahrenheit(it.main.temp)
-                    tempMax = getCelsiusToFahrenheit(it.main.temp_max)
-                    tempMin = getCelsiusToFahrenheit(it.main.temp_min)
-                    tit_temp_f_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorActiveItem)!!)
-                    tit_temp_c_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorDetiveItem)!!)
-                    dataParss.map {
-                        it.main.temp = it.main.temp.celToFah()
-                        it.main.temp_max = it.main.temp_max.celToFah()
-                        it.main.temp_min = it.main.temp_min.celToFah()
-                    }
-                }
-                adapterWeather?.apply {
-                    setDataChange(dataParss,switcherTemp)
-                    notifyDataSetChanged()
-                }
-
-                title_temp.text = mainTemp
-                title_temp_sup.text = "$tempMax/$tempMin"
-            }
-
-        }
-
-
-    }
-
-    private fun onAdapterWeather(data: Weather) {
-        adapterWeather?.setDataChange(data.list.toCollection(mutableListOf()), switcherTemp)
-        adapterWeather?.notifyDataSetChanged()
-    }
-
-
-    override fun onNavigateView(weatherDetial: WeatherDetial) {
-
-    }
-
-    override fun onBackStack() {
     }
 
 }

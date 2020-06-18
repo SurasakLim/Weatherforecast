@@ -11,19 +11,8 @@ import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder
 import kotlinx.android.synthetic.main.future_weather_item.view.*
 
 class WeatherGroupViewHodler(var view: View): GroupViewHolder(view) {
-    @SuppressLint("SetTextI18n")
-    fun bind(it: ExpandableGroup<*>) {
 
-        val titDay = view.findViewById<TextView>(R.id.tit_day)
-        val titTempHead = view.findViewById<TextView>(R.id.txt_temp_head)
-
-        if(it is WeatherList){
-            view.apply {
-                titDay.text = it.nameTitleDay
-                titTempHead.text = it.tempMax + it.tempMin
-            }
-        }
-    }
-
+    val titDay = view.tit_day
+    val titTempHead = view.txt_temp_head
 
 }
