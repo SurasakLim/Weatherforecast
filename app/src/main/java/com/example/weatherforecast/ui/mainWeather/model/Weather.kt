@@ -46,6 +46,8 @@ data class WeatherDetial(
     @field:SerializedName("dt")
     var dt: Int = 0,
 
+    var day: String = "",
+
     @field:SerializedName("dt_txt")
     var dt_txt: String = "",
 

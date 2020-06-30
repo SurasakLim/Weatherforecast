@@ -1,41 +1,44 @@
 package com.example.weatherforecast.ui.mainWeather
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemAnimator
 import com.bumptech.glide.Glide
 import com.example.weatherforecast.R
+import com.example.weatherforecast.ui.mainWeather.adapter.WeatherExpanAdapter
 import com.example.weatherforecast.ui.mainWeather.model.Weather
 import com.example.weatherforecast.ui.mainWeather.model.WeatherDetial
-import com.example.weatherforecast.uitl.StringExtenion.celToFah
+import com.example.weatherforecast.ui.mainWeather.model.WeatherList
 import com.example.weatherforecast.uitl.StringExtenion.dateToDay
-import com.example.weatherforecast.uitl.StringExtenion.fahToCal
 import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureCelsius
 import com.example.weatherforecast.uitl.StringExtenion.getCelsiusToFahrenheit
 import com.example.weatherforecast.uitl.StringExtenion.getFahrenheitToCelsius
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.card_weath_main.*
 import kotlinx.android.synthetic.main.main_weather_fragment.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
+import javax.inject.Inject
 
 
-class MainWeatherFragment : Fragment(), MainWeatherContract.ListnerNavigate,
-    MainWeatherContract.ViewController {
+class MainWeatherFragment : DaggerFragment(), WeatherPresenterContract.ViewWeather {
 
-    private var adapterWeather: WeatherAdapter? = null
+    private lateinit var presenter: WeatherPresenter
+    private lateinit var adapterExpan: WeatherExpanAdapter
     private var switcherTemp = false
     private lateinit var data: Weather
     private var dataParss: ArrayList<WeatherDetial> = arrayListOf()
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
+
+    @Inject
+    lateinit var viewModel: MainWeatherViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,41 +49,24 @@ class MainWeatherFragment : Fragment(), MainWeatherContract.ListnerNavigate,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        data = arguments?.get("weatherDetial") as Weather
+        presenter = WeatherPresenter(this)
         setUpAdapter()
-        onShowWeather()
     }
 
     private fun setUpAdapter() {
         val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val currentDateTime = LocalDateTime.now().format(formatter).dateToDay()
         txt_date_now.text = currentDateTime
-        dataParss = data.list.apply {
-            this.map {
-                it.dt_txt = it.dt_txt.dateToDay()!!
-            }
-        }.toCollection(arrayListOf())
-        dataParss = dataParss.distinctBy { it.dt_txt }.toCollection(arrayListOf())
-
-        adapterWeather = WeatherAdapter(
-            dataParss.toCollection(
-                mutableListOf()
-            ), this
-        )
-        list_future_weather.apply {
-            val layoutManagerView: RecyclerView.LayoutManager =
-                LinearLayoutManager(this@MainWeatherFragment.context)
-            layoutManager = layoutManagerView
-            adapter = adapterWeather
-        }
+        viewModel.weather.value?.data?.let { presenter.onGroupSetData(it) }
+        onShowWeather()
     }
 
     @SuppressLint("SetTextI18n", "UseRequireInsteadOfGet")
     fun onShowWeather() {
-        data.apply {
+        viewModel.weather.value?.apply {
             title_cityname.text = data.city.name
             weath_status.text = data.city.name
-            dataParss[0].let {
+            presenter.getDataGroup()[0].let {
                 val tempMax = it.main.temp_max.toString().fromatTemperatureCelsius()
                 val tempMin = it.main.temp_min.toString().fromatTemperatureCelsius()
                 title_temp.text = it.main.temp.toString().fromatTemperatureCelsius()
@@ -89,7 +75,7 @@ class MainWeatherFragment : Fragment(), MainWeatherContract.ListnerNavigate,
                 weath_status_sub.text = "Humidity $humidity %"
             }
 
-            dataParss[0].let { it ->
+            presenter.getDataGroup()[0].let { it ->
                 weath_status.text = it.weatherX[0].description
                 it.weatherX[0].icon.let {
                     Glide.with(this@MainWeatherFragment)
@@ -99,10 +85,10 @@ class MainWeatherFragment : Fragment(), MainWeatherContract.ListnerNavigate,
             }
         }
         switch_temp.setOnClickListener {
-            dataParss[0].let { it ->
-                var mainTemp = ""
-                var tempMax = ""
-                var tempMin = ""
+            presenter.getDataGroup()[0].let {
+                val mainTemp: String
+                val tempMax: String
+                val tempMin: String
                 if (switcherTemp) {
                     switcherTemp = !switcherTemp
                     mainTemp = getFahrenheitToCelsius(it.main.temp)
@@ -111,12 +97,6 @@ class MainWeatherFragment : Fragment(), MainWeatherContract.ListnerNavigate,
                     tit_temp_f_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorDetiveItem)!!)
                     tit_temp_c_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorActiveItem)!!)
 
-                    dataParss.map {
-                        it.main.temp = it.main.temp.fahToCal()
-                        it.main.temp_max = it.main.temp_max.fahToCal()
-                        it.main.temp_min = it.main.temp_min.fahToCal()
-                    }
-
                 } else {
                     switcherTemp = !switcherTemp
                     mainTemp = getCelsiusToFahrenheit(it.main.temp)
@@ -124,17 +104,9 @@ class MainWeatherFragment : Fragment(), MainWeatherContract.ListnerNavigate,
                     tempMin = getCelsiusToFahrenheit(it.main.temp_min)
                     tit_temp_f_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorActiveItem)!!)
                     tit_temp_c_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorDetiveItem)!!)
-                    dataParss.map {
-                        it.main.temp = it.main.temp.celToFah()
-                        it.main.temp_max = it.main.temp_max.celToFah()
-                        it.main.temp_min = it.main.temp_min.celToFah()
-                    }
-                }
-                adapterWeather?.apply {
-                    setDataChange(dataParss,switcherTemp)
-                    notifyDataSetChanged()
-                }
 
+                }
+                adapterExpan.switchWemp()
                 title_temp.text = mainTemp
                 title_temp_sup.text = "$tempMax/$tempMin"
             }
@@ -144,19 +116,21 @@ class MainWeatherFragment : Fragment(), MainWeatherContract.ListnerNavigate,
 
     }
 
-    private fun onAdapterWeather(data: Weather) {
-        adapterWeather?.setDataChange(data.list.toCollection(mutableListOf()), switcherTemp)
-        adapterWeather?.notifyDataSetChanged()
-    }
 
-    fun onErrorWeather(message: String) {
-    }
+    override fun onSetDataAdapter(dataExan: ArrayList<WeatherList>) {
 
-    override fun onNavigateView(weatherDetial: WeatherDetial) {
+        adapterExpan = WeatherExpanAdapter(dataExan)
+        val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this.context)
 
-    }
-
-    override fun onBackStack() {
+        list_future_weather.apply {
+            this.layoutManager = layoutManager
+            adapter = adapterExpan
+        }
+        val animator: ItemAnimator = list_future_weather.itemAnimator!!
+        if (animator is DefaultItemAnimator) {
+            animator.supportsChangeAnimations = false
+        }
+        adapterExpan.isGroupExpanded(0)
     }
 
 }
