@@ -1,43 +1,43 @@
 package com.example.weatherforecast.ui.mainWeather
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemAnimator
 import com.bumptech.glide.Glide
 import com.example.weatherforecast.R
 import com.example.weatherforecast.ui.mainWeather.adapter.WeatherExpanAdapter
 import com.example.weatherforecast.ui.mainWeather.model.Weather
 import com.example.weatherforecast.ui.mainWeather.model.WeatherDetial
 import com.example.weatherforecast.ui.mainWeather.model.WeatherList
-import com.example.weatherforecast.uitl.StringExtenion.celToFah
 import com.example.weatherforecast.uitl.StringExtenion.dateToDay
-import com.example.weatherforecast.uitl.StringExtenion.fahToCal
 import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureCelsius
 import com.example.weatherforecast.uitl.StringExtenion.getCelsiusToFahrenheit
 import com.example.weatherforecast.uitl.StringExtenion.getFahrenheitToCelsius
-import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.card_weath_main.*
 import kotlinx.android.synthetic.main.main_weather_fragment.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
-import kotlin.collections.ArrayList
+import javax.inject.Inject
 
 
-class MainWeatherFragment : Fragment(), WeatherPresenterContract.ViewWeather {
+class MainWeatherFragment : DaggerFragment(), WeatherPresenterContract.ViewWeather {
 
     private lateinit var presenter: WeatherPresenter
     private lateinit var adapterExpan: WeatherExpanAdapter
-    private var adapterWeather: WeatherAdapter? = null
     private var switcherTemp = false
     private lateinit var data: Weather
     private var dataParss: ArrayList<WeatherDetial> = arrayListOf()
+
+    @Inject
+    lateinit var viewModel: MainWeatherViewModel
 
 
     override fun onCreateView(
@@ -49,7 +49,6 @@ class MainWeatherFragment : Fragment(), WeatherPresenterContract.ViewWeather {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        data = arguments?.get("weatherDetial") as Weather
         presenter = WeatherPresenter(this)
         setUpAdapter()
     }
@@ -58,13 +57,13 @@ class MainWeatherFragment : Fragment(), WeatherPresenterContract.ViewWeather {
         val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val currentDateTime = LocalDateTime.now().format(formatter).dateToDay()
         txt_date_now.text = currentDateTime
-        presenter.onGroupSetData(data)
+        viewModel.weather.value?.data?.let { presenter.onGroupSetData(it) }
         onShowWeather()
     }
 
     @SuppressLint("SetTextI18n", "UseRequireInsteadOfGet")
     fun onShowWeather() {
-        data.apply {
+        viewModel.weather.value?.apply {
             title_cityname.text = data.city.name
             weath_status.text = data.city.name
             presenter.getDataGroup()[0].let {
@@ -86,7 +85,7 @@ class MainWeatherFragment : Fragment(), WeatherPresenterContract.ViewWeather {
             }
         }
         switch_temp.setOnClickListener {
-            data.list[0].let { it ->
+            presenter.getDataGroup()[0].let {
                 val mainTemp: String
                 val tempMax: String
                 val tempMin: String
@@ -119,19 +118,19 @@ class MainWeatherFragment : Fragment(), WeatherPresenterContract.ViewWeather {
 
 
     override fun onSetDataAdapter(dataExan: ArrayList<WeatherList>) {
-        adapterExpan = WeatherExpanAdapter(dataExan)
 
-//        adapterWeather = WeatherAdapter(
-//            dataParss.toCollection(
-//                mutableListOf()
-//            ), this
-//        )
+        adapterExpan = WeatherExpanAdapter(dataExan)
+        val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this.context)
+
         list_future_weather.apply {
-            val layoutManagerView: RecyclerView.LayoutManager =
-                LinearLayoutManager(this@MainWeatherFragment.context)
-            layoutManager = layoutManagerView
+            this.layoutManager = layoutManager
             adapter = adapterExpan
         }
+        val animator: ItemAnimator = list_future_weather.itemAnimator!!
+        if (animator is DefaultItemAnimator) {
+            animator.supportsChangeAnimations = false
+        }
+        adapterExpan.isGroupExpanded(0)
     }
 
 }

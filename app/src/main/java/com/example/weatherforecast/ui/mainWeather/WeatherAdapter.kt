@@ -12,16 +12,21 @@ import com.example.weatherforecast.R
 import com.example.weatherforecast.ui.mainWeather.model.WeatherDetial
 import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureCelsius
 import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureFahrenheit
-import kotlinx.android.synthetic.main.future_weather_item.view.*
+import com.example.weatherforecast.uitl.StringExtenion.toDateString
+import kotlinx.android.synthetic.main.item_current_feature.view.*
 
-class WeatherAdapter(var item:MutableList<WeatherDetial>,var navigate: MainWeatherContract.ListnerNavigate) : RecyclerView.Adapter<WeatherAdapter.ViewHolder>() {
-
+class WeatherAdapter(var item:MutableList<WeatherDetial>,viewType: Int) : RecyclerView.Adapter<WeatherAdapter.ViewHolder>() {
+    private var viewTypeItem = viewType
     private var itemFuture : MutableList<WeatherDetial> = item
     private var switcherTemp :Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val mInfater = LayoutInflater.from(parent.context)
-        return ViewHolder(mInfater.inflate(R.layout.future_weather_item,parent,false))
+        return ViewHolder(mInfater.inflate(R.layout.item_current_feature,parent,false))
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return viewTypeItem
     }
 
     override fun getItemCount(): Int {
@@ -46,7 +51,7 @@ class WeatherAdapter(var item:MutableList<WeatherDetial>,var navigate: MainWeath
         fun bindData(weatherDetial: WeatherDetial, holder: ViewHolder
         ) {
             view.apply {
-                tit_day.text = weatherDetial.dt_txt
+                txt_fu_date.text = weatherDetial.dt_txt.toDateString()
                 val tempMax: String
                 val tempMin: String
                 if(switcherTemp){
@@ -57,17 +62,18 @@ class WeatherAdapter(var item:MutableList<WeatherDetial>,var navigate: MainWeath
                      tempMin = weatherDetial.main.temp_min.toString().fromatTemperatureCelsius()
                 }
 
-                txt_temp_head.text = "$tempMax/$tempMin"
-                imageView.loadIconImg(holder.view.rootView.context,weatherDetial.weatherX[0].icon)
-                current_weather_select.setOnClickListener {
-                    navigate.onNavigateView(weatherDetial)
-                }
+                txt_temp.text = "$tempMax/$tempMin"
+                img_status.loadIconImg(holder.view.rootView.context,weatherDetial.weatherX[0].icon)
+
             }
         }
 
     }
 
     fun ImageView.loadIconImg(context: Context, icon:String){
-        Glide.with(context).load("http://openweathermap.org/img/wn/$icon@2x.png").into(this)
+        Glide.with(context)
+            .load("http://openweathermap.org/img/wn/$icon@2x.png")
+            .placeholder(context.getDrawable(R.drawable.ic_sun_main))
+            .into(this)
     }
 }

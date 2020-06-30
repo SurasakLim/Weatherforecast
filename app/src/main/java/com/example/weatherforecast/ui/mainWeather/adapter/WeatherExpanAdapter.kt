@@ -7,7 +7,10 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.example.weatherforecast.R
 import com.example.weatherforecast.ui.mainWeather.model.WeatherList
-import com.example.weatherforecast.uitl.StringExtenion.getCelsiusToFahrenheit
+import com.example.weatherforecast.uitl.StringExtenion.fahToCal
+import com.example.weatherforecast.uitl.StringExtenion.celToFah
+import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureCelsius
+import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureFahrenheit
 import com.example.weatherforecast.uitl.StringExtenion.getFahrenheitToCelsius
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
@@ -27,9 +30,6 @@ class WeatherExpanAdapter(listEx:ArrayList<WeatherList>) :
         return WeatherGroupViewHodler(mInfater.inflate(R.layout.future_weather_item,parent,false))
     }
 
-    override fun getItemCount(): Int {
-        return listExapnd.size
-    }
 
 
     override fun onCreateChildViewHolder(
@@ -38,6 +38,10 @@ class WeatherExpanAdapter(listEx:ArrayList<WeatherList>) :
     ): WeatherChildViewHolder {
         val mInfater = LayoutInflater.from(parent?.context)
         return WeatherChildViewHolder(mInfater.inflate(R.layout.future_weather_item_child,parent,false))
+    }
+
+    override fun getItemCount(): Int {
+        return listExapnd.size
     }
 
     override fun onBindChildViewHolder(
@@ -63,7 +67,11 @@ class WeatherExpanAdapter(listEx:ArrayList<WeatherList>) :
         val head = listExapnd[flatPosition]
         holder?.apply {
             titDay?.text = head.nameTitleDay
-            titTempHead?.text = head.tempMax + head.tempMin
+            if(switcherTemp){
+                titTempHead?.text = head.tempMax.toString().fromatTemperatureFahrenheit() +"/"+  head.tempMin.toString().fromatTemperatureFahrenheit()
+            } else {
+                titTempHead?.text = head.tempMax.toString().fromatTemperatureCelsius() +"/"+  head.tempMin.toString().fromatTemperatureCelsius()
+            }
         }
     }
     fun ImageView.loadIconImg(context: Context, icon:String){
@@ -71,23 +79,23 @@ class WeatherExpanAdapter(listEx:ArrayList<WeatherList>) :
     }
 
     fun switchWemp(){
-        val mainTemp: String
-        val tempMax: String
-        val tempMin: String
+
         if (switcherTemp) {
             switcherTemp = !switcherTemp
             listExapnd.map {
-                it.tempMax = getFahrenheitToCelsius(it.tempMax.toDouble())
-                it.tempMin = getFahrenheitToCelsius(it.tempMin.toDouble())
+                it.tempMax = it.tempMax.fahToCal()
+                it.tempMin = it.tempMin.fahToCal()
             }
 
         } else {
             switcherTemp = !switcherTemp
             listExapnd.map {
-                it.tempMax = getCelsiusToFahrenheit(it.tempMax.toDouble())
-                it.tempMin = getCelsiusToFahrenheit(it.tempMin.toDouble())
+                it.tempMax = it.tempMax.celToFah()
+                it.tempMin = it.tempMin.celToFah()
             }
         }
         notifyDataSetChanged()
     }
+
+
 }

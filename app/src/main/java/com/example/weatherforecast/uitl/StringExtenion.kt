@@ -1,12 +1,13 @@
 package com.example.weatherforecast.uitl
 
-import android.os.Build
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import java.lang.Exception
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.abs
 
@@ -51,6 +52,17 @@ object StringExtenion {
             val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             val outputFormat = DateTimeFormatter.ofPattern("EEEE dd")
             LocalDate.parse(this, inputFormat).format(outputFormat)
+        } catch (e :Exception){
+            this
+        }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun String.toDateString(): String {
+        return try {
+            val inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val outputFormat = DateTimeFormatter.ofPattern("HH:mm:ss")
+            LocalDateTime.parse(this, inputFormat).format(outputFormat)
         } catch (e :Exception){
             this
         }
