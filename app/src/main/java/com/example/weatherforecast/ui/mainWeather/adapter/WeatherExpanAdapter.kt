@@ -66,11 +66,11 @@ class WeatherExpanAdapter(listEx:ArrayList<WeatherList>) :
     ) {
         val head = listExapnd[flatPosition]
         holder?.apply {
-            titDay?.text = head.nameTitleDay
+            titDay.text = head.nameTitleDay
             if(switcherTemp){
-                titTempHead?.text = head.tempMax.toString().fromatTemperatureFahrenheit() +"/"+  head.tempMin.toString().fromatTemperatureFahrenheit()
+                titTempHead.text = head.tempMax.toString().fromatTemperatureFahrenheit() +"/"+  head.tempMin.toString().fromatTemperatureFahrenheit()
             } else {
-                titTempHead?.text = head.tempMax.toString().fromatTemperatureCelsius() +"/"+  head.tempMin.toString().fromatTemperatureCelsius()
+                titTempHead.text = head.tempMax.toString().fromatTemperatureCelsius() +"/"+  head.tempMin.toString().fromatTemperatureCelsius()
             }
         }
     }

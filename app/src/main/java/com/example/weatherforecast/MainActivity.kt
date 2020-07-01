@@ -1,15 +1,8 @@
 package com.example.weatherforecast
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
-import com.example.weatherforecast.ui.baseActivity.BaseAppCompatActivity
-import com.example.weatherforecast.ui.mainWeather.MainWeatherContract
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
 import dagger.android.support.DaggerAppCompatActivity
-import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
 
@@ -26,9 +19,4 @@ class MainActivity : DaggerAppCompatActivity() {
             .commit()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-//        val fragment = this@MainActivity.supportFragmentManager.findFragmentById(R.id.mainWeatherFragment)
-//        (fragment as? MainWeatherContract.ViewController)?.onBackStack()
-    }
 }

@@ -37,14 +37,6 @@ class WeatherAdapter(var item:MutableList<WeatherDetial>,viewType: Int) : Recycl
        holder.bindData(item[position],holder)
     }
 
-    fun setDataChange(
-        list: MutableList<WeatherDetial>,
-        switcherTemp: Boolean
-    ) {
-        itemFuture = list
-        this.switcherTemp = switcherTemp
-        notifyDataSetChanged()
-    }
 
     inner class ViewHolder(var view: View) : RecyclerView.ViewHolder(view) {
         @SuppressLint("SetTextI18n")

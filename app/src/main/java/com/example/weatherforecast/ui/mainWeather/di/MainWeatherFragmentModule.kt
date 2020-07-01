@@ -1,8 +1,6 @@
 package com.example.weatherforecast.ui.mainWeather.di
 
 import androidx.lifecycle.ViewModelProviders
-import com.example.weatherforecast.ui.domain.WeathDataSourceRemote
-import com.example.weatherforecast.ui.domain.WeathUseCase
 import com.example.weatherforecast.ui.mainWeather.*
 import dagger.Module
 import dagger.Provides

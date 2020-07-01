@@ -1,4 +1,4 @@
-package com.example.weatherforecast.ui.domain
+package com.example.weatherforecast.ui.mainWeather.domain
 
 import com.example.weatherforecast.di.serviceModule.WeatherApi
 import javax.inject.Inject

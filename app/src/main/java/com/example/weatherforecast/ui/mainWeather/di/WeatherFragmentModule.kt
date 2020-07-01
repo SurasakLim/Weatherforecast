@@ -1,9 +1,8 @@
 package com.example.weatherforecast.ui.mainWeather.di
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModelProviders
-import com.example.weatherforecast.ui.domain.WeathDataSourceRemote
-import com.example.weatherforecast.ui.domain.WeathUseCase
+import com.example.weatherforecast.ui.mainWeather.domain.WeathDataSourceRemote
+import com.example.weatherforecast.ui.mainWeather.domain.WeathUseCase
 import com.example.weatherforecast.ui.mainWeather.*
 import dagger.Module
 import dagger.Provides

@@ -10,7 +10,4 @@ import dagger.android.ContributesAndroidInjector
 
 @Suppress("unused")
 @Module
-abstract class FragmentBuildersModule {
-
-
-}
+abstract class FragmentBuildersModule

@@ -45,7 +45,7 @@ class LiveNetworkMonitor(private val context: Context?) : LiveMonitorInterface {
     override fun getNetworkType(): String {
         if (isConnected()) {
             val teleMan = context?.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-            val connManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val connManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkType = teleMan.networkType
             val networkInfo = connManager.activeNetworkInfo
             when (networkType) {

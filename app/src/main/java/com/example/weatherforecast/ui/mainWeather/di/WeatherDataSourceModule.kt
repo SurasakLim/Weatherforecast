@@ -1,7 +1,7 @@
 package com.example.weatherforecast.ui.mainWeather.di
 
-import com.example.weatherforecast.ui.domain.WeathDataSourceRemoteInterface
-import com.example.weatherforecast.ui.domain.WeathRepository
+import com.example.weatherforecast.ui.mainWeather.domain.WeathDataSourceRemoteInterface
+import com.example.weatherforecast.ui.mainWeather.domain.WeathRepository
 import dagger.Module
 import dagger.Provides
 

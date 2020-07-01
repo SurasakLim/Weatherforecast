@@ -17,11 +17,4 @@ interface MainWeatherContract {
         fun onGetWeatherData(cityId:String)
     }
 
-    interface ListnerNavigate: MainWeatherContract{
-        fun onNavigateView(weatherDetial: WeatherDetial)
-    }
-
-    interface ViewController: MainWeatherContract {
-        fun onBackStack()
-    }
 }

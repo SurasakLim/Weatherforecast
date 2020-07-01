@@ -14,35 +14,35 @@ object WeatherBundingAdapte {
     @JvmStatic
     @BindingAdapter("android:txtToC")
     fun tempWeatherToC(textView:TextView,data:Double){
-        textView.text = "$data \u2103"?:""
+        textView.text = "$data \u2103"
     }
 
     @SuppressLint("SetTextI18n")
     @JvmStatic
     @BindingAdapter("android:txtToF")
     fun tempWeatherToF(textView:TextView,data:String){
-        textView.text = "$data \u2109"?:""
+        textView.text = "$data \u2109"
     }
 
     @SuppressLint("SetTextI18n")
     @JvmStatic
     @BindingAdapter("android:txtFormatWind")
     fun txtFormatWind(textView:TextView,data:Double){
-        textView.text = "$data meter/sec,"?:""
+        textView.text = "$data meter/sec,"
     }
 
     @SuppressLint("SetTextI18n")
     @JvmStatic
     @BindingAdapter("android:txtFormatHumidity")
     fun txtFormatHumidity(textView:TextView,data:Double){
-        textView.text = "$data %"?:""
+        textView.text = "$data %"
     }
 
     @SuppressLint("SetTextI18n")
     @JvmStatic
     @BindingAdapter("android:txtFormatSnow")
     fun txtFormatSmow(textView:TextView,data:Double){
-        textView.text = "$data volume of last 3 hours"?: ""
+        textView.text = "$data volume of last 3 hours"
     }
 
     @SuppressLint("SetTextI18n")

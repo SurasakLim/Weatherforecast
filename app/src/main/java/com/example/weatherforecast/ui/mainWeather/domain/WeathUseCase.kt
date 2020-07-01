@@ -1,4 +1,4 @@
-package com.example.weatherforecast.ui.domain
+package com.example.weatherforecast.ui.mainWeather.domain
 
 import com.example.weatherforecast.uitl.NoNetworkException
 import com.example.weatherforecast.ui.mainWeather.model.WeathResponse

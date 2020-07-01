@@ -1,8 +1,8 @@
 package com.example.weatherforecast.ui.mainWeather
 
 import com.example.weatherforecast.di.serviceModule.ServiceApi
-import com.example.weatherforecast.ui.domain.WeathDataSourceRemoteInterface
-import com.example.weatherforecast.ui.domain.WeathUseCase
+import com.example.weatherforecast.ui.mainWeather.domain.WeathDataSourceRemoteInterface
+import com.example.weatherforecast.ui.mainWeather.domain.WeathUseCase
 import com.example.weatherforecast.ui.mainWeather.model.WeathResponse
 import com.example.weatherforecast.ui.mainWeather.model.Weather
 import kotlinx.coroutines.*

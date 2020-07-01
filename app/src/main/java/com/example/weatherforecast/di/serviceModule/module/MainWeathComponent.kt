@@ -12,8 +12,7 @@ import dagger.multibindings.IntoMap
 interface MainWeathComponent : AndroidInjector<MainActivity>{
 
     @Subcomponent.Factory
-    interface Factory : AndroidInjector.Factory<MainActivity>{
-    }
+    interface Factory : AndroidInjector.Factory<MainActivity>
 
 }
 
