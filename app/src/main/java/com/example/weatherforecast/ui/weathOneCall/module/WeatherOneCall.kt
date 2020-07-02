@@ -1,106 +1,106 @@
 package com.example.weatherforecast.ui.weathOneCall.module
 
 data class WeatherOneCall(
-    val current: Current,
-    val daily: List<Daily>,
-    val hourly: List<Hourly>,
-    val lat: Double,
-    val lon: Double,
-    val minutely: List<Minutely>,
-    val timezone: String,
-    val timezone_offset: Int
+    val current: Current = Current(),
+    val daily: List<Daily> = listOf(),
+    val hourly: List<Hourly> = listOf(),
+    val lat: Double = 0.0,
+    val lon: Double = 0.0,
+    val minutely: List<Minutely> = listOf(),
+    val timezone: String = "",
+    val timezone_offset: Int = 0
 )
 
 data class Current(
-    val clouds: Int,
-    val dew_point: Double,
-    val dt: Int,
-    val feels_like: Double,
-    val humidity: Int,
-    val pressure: Int,
-    val sunrise: Int,
-    val sunset: Int,
-    val temp: Double,
-    val uvi: Double,
-    val visibility: Int,
-    val weather: List<Weather>,
-    val wind_deg: Int,
-    val wind_speed: Double
+    val clouds: Int = 0,
+    val dew_point: Double = 0.0,
+    val dt: Int = 0,
+    val feels_like: Double = 0.0,
+    val humidity: Int = 0,
+    val pressure: Int = 0,
+    val sunrise: Int = 0,
+    val sunset: Int = 0,
+    val temp: Double = 0.0,
+    val uvi: Double = 0.0,
+    val visibility: Int = 0,
+    val weather: List<Weather> = listOf(),
+    val wind_deg: Int = 0,
+    val wind_speed: Double = 0.0
 )
 
 data class Daily(
-    val clouds: Int,
-    val dew_point: Double,
-    val dt: Int,
+    val clouds: Int = 0,
+    val dew_point: Double = 0.0,
+    val dt: Int = 0,
     val feels_like: FeelsLike,
-    val humidity: Int,
-    val pressure: Int,
-    val rain: Double,
-    val sunrise: Int,
-    val sunset: Int,
+    val humidity: Int = 0,
+    val pressure: Int = 0,
+    val rain: Double = 0.0,
+    val sunrise: Int = 0,
+    val sunset: Int = 0,
     val temp: Temp,
-    val uvi: Double,
-    val weather: List<WeatherX>,
-    val wind_deg: Int,
-    val wind_speed: Int
+    val uvi: Double = 0.0,
+    val weather: List<WeatherDetailDaily>,
+    val wind_deg: Int = 0,
+    val wind_speed: Int = 0
 )
 
 data class Hourly(
-    val clouds: Int,
-    val dew_point: Double,
-    val dt: Int,
-    val feels_like: Double,
-    val humidity: Int,
-    val pressure: Int,
+    val clouds: Int = 0,
+    val dew_point: Double = 0.0,
+    val dt: Int = 0,
+    val feels_like: Double = 0.0,
+    val humidity: Int = 0,
+    val pressure: Int = 0,
     val rain: Rain,
-    val temp: Double,
-    val weather: List<WeatherXX>,
-    val wind_deg: Int,
-    val wind_speed: Double
+    val temp: Double = 0.0,
+    val weather: List<WeatherDetail> = listOf(),
+    val wind_deg: Int = 0,
+    val wind_speed: Double = 0.0
 )
 
 data class Minutely(
-    val dt: Int,
-    val precipitation: Int
+    val dt: Int = 0,
+    val precipitation: Int = 0
 )
 
 data class Weather(
-    val description: String,
-    val icon: String,
-    val id: Int,
-    val main: String
+    val description: String = "",
+    val icon: String = "",
+    val id: Int = 0,
+    val main: String = ""
 )
 
 data class FeelsLike(
-    val day: Double,
-    val eve: Double,
-    val morn: Double,
-    val night: Double
+    val day: Double = 0.0,
+    val eve: Double = 0.0,
+    val morn: Double = 0.0,
+    val night: Double = 0.0
 )
 
 data class Temp(
-    val day: Double,
-    val eve: Double,
-    val max: Double,
-    val min: Double,
-    val morn: Double,
-    val night: Double
+    val day: Double = 0.0,
+    val eve: Double = 0.0,
+    val max: Double = 0.0,
+    val min: Double = 0.0,
+    val morn: Double = 0.0,
+    val night: Double = 0.0
 )
 
-data class WeatherX(
-    val description: String,
-    val icon: String,
-    val id: Int,
-    val main: String
+data class WeatherDetailDaily(
+    val description: String = "",
+    val icon: String = "",
+    val id: Int = 0,
+    val main: String = ""
 )
 
 data class Rain(
-    val `1h`: Double
+    val `1h`: Double = 0.0
 )
 
-data class WeatherXX(
-    val description: String,
-    val icon: String,
-    val id: Int,
-    val main: String
+data class WeatherDetail(
+    val description: String = "",
+    val icon: String = "",
+    val id: Int = 0,
+    val main: String = ""
 )

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
 import com.example.weatherforecast.databinding.FragmentWearterDetailBinding
+import com.example.weatherforecast.db.WeatherDataBase
 import com.example.weatherforecast.ui.mainWeather.model.Weather
 import com.example.weatherforecast.ui.mainWeather.model.WeatherStatusMain
 import com.example.weatherforecast.uitl.DialogWarning
@@ -31,6 +32,9 @@ class WearterDetailFragment : DaggerFragment(), MainWeatherContract.View {
     private lateinit var binding: FragmentWearterDetailBinding
     @Inject
     lateinit var viewModelWeath: MainWeatherViewModel
+
+    @Inject
+    lateinit var dataBaseWeather : WeatherDataBase
 
     @Inject
     lateinit var presenter: MainWeatherPresenter
