@@ -7,14 +7,12 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.example.weatherforecast.R
 import com.example.weatherforecast.ui.mainWeather.model.WeatherList
-import com.example.weatherforecast.uitl.StringExtenion.fahToCal
 import com.example.weatherforecast.uitl.StringExtenion.celToFah
+import com.example.weatherforecast.uitl.StringExtenion.fahToCal
 import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureCelsius
 import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureFahrenheit
-import com.example.weatherforecast.uitl.StringExtenion.getFahrenheitToCelsius
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
-import kotlin.math.abs
 
 class WeatherExpanAdapter(listEx:ArrayList<WeatherList>) :
     ExpandableRecyclerViewAdapter<WeatherGroupViewHodler, WeatherChildViewHolder>(listEx) {
@@ -50,30 +48,12 @@ class WeatherExpanAdapter(listEx:ArrayList<WeatherList>) :
         group: ExpandableGroup<*>?,
         childIndex: Int
     ) {
-        val childItem = listExapnd[flatPosition].dataChild[childIndex]
-        holder?.apply {
-            holder.view.rootView?.context?.let { imgWeather?.loadIconImg(it,childItem.weatherX[0].icon) }
-            dayChild?.text = childItem.dt_txt
-            tempChild?.text = childItem.main.temp.toString()
-        }
+        val childItem = (group as WeatherList).items[childIndex]
+        holder?.onBind(childItem)
     }
 
 
-    override fun onBindGroupViewHolder(
-        holder: WeatherGroupViewHodler?,
-        flatPosition: Int,
-        group: ExpandableGroup<*>?
-    ) {
-        val head = listExapnd[flatPosition]
-        holder?.apply {
-            titDay.text = head.nameTitleDay
-            if(switcherTemp){
-                titTempHead.text = head.tempMax.toString().fromatTemperatureFahrenheit() +"/"+  head.tempMin.toString().fromatTemperatureFahrenheit()
-            } else {
-                titTempHead.text = head.tempMax.toString().fromatTemperatureCelsius() +"/"+  head.tempMin.toString().fromatTemperatureCelsius()
-            }
-        }
-    }
+
     fun ImageView.loadIconImg(context: Context, icon:String){
         Glide.with(context).load("http://openweathermap.org/img/wn/$icon@2x.png").into(this)
     }
@@ -95,6 +75,22 @@ class WeatherExpanAdapter(listEx:ArrayList<WeatherList>) :
             }
         }
         notifyDataSetChanged()
+    }
+
+    override fun onBindGroupViewHolder(
+        holder: WeatherGroupViewHodler?,
+        flatPosition: Int,
+        group: ExpandableGroup<*>?
+    ) {
+        val head = listExapnd[flatPosition]
+        holder?.apply {
+            titDay.text = head.nameTitleDay
+            if(switcherTemp){
+                titTempHead.text = head.tempMax.toString().fromatTemperatureFahrenheit() +"/"+  head.tempMin.toString().fromatTemperatureFahrenheit()
+            } else {
+                titTempHead.text = head.tempMax.toString().fromatTemperatureCelsius() +"/"+  head.tempMin.toString().fromatTemperatureCelsius()
+            }
+        }
     }
 
 

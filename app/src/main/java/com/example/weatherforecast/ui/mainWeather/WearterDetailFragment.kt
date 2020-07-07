@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
 import com.example.weatherforecast.databinding.FragmentWearterDetailBinding
-import com.example.weatherforecast.db.WeatherDataBase
 import com.example.weatherforecast.ui.mainWeather.model.Weather
 import com.example.weatherforecast.ui.mainWeather.model.WeatherStatusMain
 import com.example.weatherforecast.uitl.DialogWarning
+import com.example.weatherforecast.uitl.ImageExtension.setBackGround
 import com.example.weatherforecast.uitl.StringExtenion.dateToDay
 import com.example.weatherforecast.uitl.StringExtenion.onDone
 import dagger.android.support.DaggerFragment
@@ -33,8 +33,8 @@ class WearterDetailFragment : DaggerFragment(), MainWeatherContract.View {
     @Inject
     lateinit var viewModelWeath: MainWeatherViewModel
 
-    @Inject
-    lateinit var dataBaseWeather : WeatherDataBase
+//    @Inject
+//    lateinit var dataBaseWeather : WeatherDataBase
 
     @Inject
     lateinit var presenter: MainWeatherPresenter
@@ -99,25 +99,8 @@ class WearterDetailFragment : DaggerFragment(), MainWeatherContract.View {
             adapter = adapterWeather
             this.layoutManager = layoutManager
         }
-        val bgStatus: Drawable
-        when (data.list[0].weatherX[0].main) {
-            WeatherStatusMain.Clear.names -> {
-                bgStatus = context?.getDrawable(R.drawable.bg_clear_sky)!!
-            }
-            WeatherStatusMain.Clouds.names -> {
-                bgStatus = context?.getDrawable(R.drawable.bg_cloud)!!
-            }
-            WeatherStatusMain.Rain.names -> {
-                bgStatus = context?.getDrawable(R.drawable.bg_rain)!!
-            }
-            WeatherStatusMain.Snow.names -> {
-                bgStatus = context?.getDrawable(R.drawable.bg_snow)!!
-            }
-            else -> {
-                bgStatus = context?.getDrawable(R.drawable.bg_clear_sky)!!
-            }
-        }
-        bg_main.background = bgStatus
+
+        bg_main.setBackGround(data)
 
         chang_temp.setOnClickListener {
             viewModelWeath.apply {

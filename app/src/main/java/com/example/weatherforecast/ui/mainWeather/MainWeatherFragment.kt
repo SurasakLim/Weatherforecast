@@ -16,6 +16,7 @@ import com.example.weatherforecast.ui.mainWeather.adapter.WeatherExpanAdapter
 import com.example.weatherforecast.ui.mainWeather.model.Weather
 import com.example.weatherforecast.ui.mainWeather.model.WeatherDetial
 import com.example.weatherforecast.ui.mainWeather.model.WeatherList
+import com.example.weatherforecast.uitl.ImageExtension.setBackGround
 import com.example.weatherforecast.uitl.StringExtenion.dateToDay
 import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureCelsius
 import com.example.weatherforecast.uitl.StringExtenion.getCelsiusToFahrenheit
@@ -58,6 +59,7 @@ class MainWeatherFragment : DaggerFragment(), WeatherPresenterContract.ViewWeath
         val currentDateTime = LocalDateTime.now().format(formatter).dateToDay()
         txt_date_now.text = currentDateTime
         viewModel.weather.value?.data?.let { presenter.onGroupSetData(it) }
+        bg_detail_main.setBackGround(viewModel.weather.value?.data!!)
         onShowWeather()
     }
 

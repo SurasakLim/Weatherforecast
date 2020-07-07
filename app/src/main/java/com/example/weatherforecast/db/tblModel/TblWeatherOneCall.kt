@@ -1,371 +1,382 @@
-package com.example.weatherforecast.db.tblModel
-
-import androidx.room.*
-import com.google.gson.annotations.SerializedName
-import java.util.*
-
-@Entity(tableName = "TblWeatherOneCall")
-class TblWeatherOneCall(
-    @PrimaryKey
-    @ColumnInfo(name = "TblWeatherOnCallId")
-    val id: String = UUID.randomUUID().toString(),
-
-    @SerializedName("current")
-    @Relation(
-        parentColumn = "TblWeatherOnCallId",
-        entityColumn = "CurrentId"
-    )
-    val current: Current = Current(),
-
-    @SerializedName("daily")
-    @Relation(
-        parentColumn = "TblWeatherOnCallId",
-        entityColumn = "DailyId"
-    )
-    val daily: List<Daily> = listOf(),
-
-    @SerializedName("hourly")
-    @Relation(
-        parentColumn = "TblWeatherOnCallId",
-        entityColumn = "HourlyId"
-    )
-    val hourly: List<Hourly> = listOf(),
-
-    @SerializedName("lat")
-    @ColumnInfo(name = "lat")
-    val lat: Double = 0.0,
-
-    @SerializedName("lon")
-    @ColumnInfo(name = "lon")
-    val lon: Double = 0.0,
-
-    @SerializedName("minutely")
-    @Relation(
-        parentColumn = "TblWeatherOnCallId",
-        entityColumn = "Minutely"
-    )
-    val minutely: List<Minutely> = listOf(),
-
-    @SerializedName("timezone")
-    @ColumnInfo(name = "timezone")
-    val timezone: String = "",
-
-    @SerializedName("timezone_offset")
-    @ColumnInfo(name = "timezone_offset")
-    val timezone_offset: Int = 0
-)
-
-@Entity(tableName = "Current")
-data class Current(
-    @PrimaryKey
-    @ColumnInfo(name = "CurrentId")
-    val id: String = UUID.randomUUID().toString(),
-
-    @SerializedName("clouds")
-    @ColumnInfo(name = "clouds")
-    val clouds: Int = 0,
-
-    @SerializedName("dew_point")
-    @ColumnInfo(name = "dew_point")
-    val dew_point: Double = 0.0,
-
-    @SerializedName("dt")
-    @ColumnInfo(name = "dt")
-    val dt: Int = 0,
-
-    @SerializedName("feels_like")
-    @ColumnInfo(name = "feels_like")
-    val feels_like: Double = 0.0,
-
-    @SerializedName("humidity")
-    @ColumnInfo(name = "humidity")
-    val humidity: Int = 0,
-
-    @SerializedName("pressure")
-    @ColumnInfo(name = "pressure")
-    val pressure: Int = 0,
-
-    @SerializedName("sunrise")
-    @ColumnInfo(name = "sunrise")
-    val sunrise: Int = 0,
-
-    @SerializedName("sunset")
-    @ColumnInfo(name = "sunset")
-    val sunset: Int = 0,
-
-    @SerializedName("temp")
-    @ColumnInfo(name = "temp")
-    val temp: Double = 0.0,
-
-    @SerializedName("uvi")
-    @ColumnInfo(name = "uvi")
-    val uvi: Double = 0.0,
-
-    @SerializedName("visibility")
-    @ColumnInfo(name = "visibility")
-    val visibility: Int = 0,
-
-    @SerializedName("weather")
-    @Relation(
-        parentColumn = "CurrentId",
-        entityColumn = "WeatherId"
-    )
-    val weather: List<Weather> = listOf(),
-
-    @SerializedName("wind_deg")
-    @ColumnInfo(name = "wind_deg")
-    val wind_deg: Int = 0,
-
-    @SerializedName("wind_speed")
-    @ColumnInfo(name = "wind_speed")
-    val wind_speed: Double = 0.0
-)
-
-@Entity(tableName = "Daily")
-data class Daily(
-    @PrimaryKey
-    @ColumnInfo(name = "DailyId")
-    val id: String = UUID.randomUUID().toString(),
-
-    @SerializedName("clouds")
-    @ColumnInfo(name = "clouds")
-    val clouds: Int = 0,
-
-    @SerializedName("dew_point")
-    @ColumnInfo(name = "dew_point")
-    val dew_point: Double = 0.0,
-
-    @SerializedName("dt")
-    @ColumnInfo(name = "dt")
-    val dt: Int = 0,
-
-    @SerializedName("feels_like")
-    @Relation(
-        parentColumn = "DailyId",
-        entityColumn = "feelsliksid"
-    )
-    val feels_like: FeelsLike,
-
-    @SerializedName("humidity")
-    @ColumnInfo(name = "humidity")
-    val humidity: Int = 0,
-
-    @SerializedName("pressure")
-    @ColumnInfo(name = "pressure")
-    val pressure: Int = 0,
-
-    @SerializedName("rain")
-    @ColumnInfo(name = "rain")
-    val rain: Double = 0.0,
-
-    @SerializedName("sunrise")
-    @ColumnInfo(name = "sunrise")
-    val sunrise: Int = 0,
-
-    @SerializedName("sunset")
-    @ColumnInfo(name = "sunset")
-    val sunset: Int = 0,
-
-    @SerializedName("temp")
-    @Relation(
-        parentColumn = "DailyId",
-        entityColumn = "TempId"
-    )
-    val temp: Temp,
-
-    @SerializedName("uvi")
-    @ColumnInfo(name = "uvi")
-    val uvi: Double = 0.0,
-
-    @SerializedName("weather")
-    @Relation(
-        parentColumn = "DailyId",
-        entityColumn = "WeatherDailyId"
-    )
-    val weather: List<WeatherDetailDaily>,
-
-    @SerializedName("wind_deg")
-    @ColumnInfo(name = "wind_deg")
-    val wind_deg: Int = 0,
-
-    @SerializedName("wind_speed")
-    @ColumnInfo(name = "wind_speed")
-    val wind_speed: Int = 0
-
-)
-
-@Entity(tableName = "Hourly")
-data class Hourly(
-    @PrimaryKey
-    @ColumnInfo(name = "HourlyId")
-    val id: String = UUID.randomUUID().toString(),
-
-    @SerializedName("clouds")
-    val clouds: Int = 0,
-
-    @SerializedName("dew_point")
-    val dew_point: Double = 0.0,
-
-    @SerializedName("dt")
-    val dt: Int = 0,
-
-    @SerializedName("feels_like")
-    val feels_like: Double = 0.0,
-
-    @SerializedName("humidity")
-    val humidity: Int = 0,
-
-    @SerializedName("pressure")
-    val pressure: Int = 0,
-
-    @SerializedName("rain")
-    @Relation(
-        parentColumn = "HourlyId",
-        entityColumn = "RainID"
-    )
-    val rain: Rain,
-
-    @SerializedName("temp")
-    val temp: Double = 0.0,
-
-    @SerializedName("weather")
-    @Relation(
-        parentColumn = "HourlyId",
-        entityColumn = "weatherdetailid"
-    )
-    val weather: List<WeatherDetail> = listOf(),
-
-    @SerializedName("wind_deg")
-    val wind_deg: Int = 0,
-
-    @SerializedName("wind_speed")
-    val wind_speed: Double = 0.0
-)
-
-@Entity(tableName = "Minutely")
-data class Minutely(
-    @PrimaryKey
-    @ColumnInfo(name = "MinutelyId")
-    val id: String = UUID.randomUUID().toString(),
-
-    @SerializedName("dt")
-    val dt: Int = 0,
-
-    @SerializedName("precipitation")
-    val precipitation: Int = 0
-)
-
-@Entity(tableName = "Weather")
-data class Weather(
-    @PrimaryKey
-    @ColumnInfo(name = "WeatherId")
-    val WeatherId: String = UUID.randomUUID().toString(),
-
-    @SerializedName("description")
-    @ColumnInfo(name = "description")
-    val description: String = "",
-
-    @SerializedName("icon")
-    @ColumnInfo(name = "icon")
-    val icon: String = "",
-
-    @SerializedName("id")
-    @ColumnInfo(name = "id")
-    val id: Int = 0,
-
-    @SerializedName("main")
-    @ColumnInfo(name = "main")
-    val main: String = ""
-)
-
-@Entity(tableName = "feelsliks")
-data class FeelsLike(
-    @PrimaryKey
-    @ColumnInfo(name = "feelsliksid")
-    val weatherDailyId: String = UUID.randomUUID().toString(),
-
-    @SerializedName("day")
-    val day: Double = 0.0,
-
-    @SerializedName("eve")
-    val eve: Double = 0.0,
-
-    @SerializedName("morn")
-    val morn: Double = 0.0,
-
-    @SerializedName("night")
-    val night: Double = 0.0
-)
-
-@Entity(tableName = "Temp")
-data class Temp(
-    @PrimaryKey
-    @ColumnInfo(name = "TempId")
-    val weatherDailyId: String = UUID.randomUUID().toString(),
-
-    @SerializedName("day")
-    val day: Double = 0.0,
-
-    @SerializedName("eve")
-    val eve: Double = 0.0,
-
-    @SerializedName("nigmaxht")
-    val max: Double = 0.0,
-
-    @SerializedName("min")
-    val min: Double = 0.0,
-
-    @SerializedName("morn")
-    val morn: Double = 0.0,
-
-    @SerializedName("night")
-    val night: Double = 0.0
-)
-
-@Entity(tableName = "WeatherDetailDaily")
-data class WeatherDetailDaily(
-    @PrimaryKey
-    @ColumnInfo(name = "WeatherDailyId")
-    val weatherDailyId: String = UUID.randomUUID().toString(),
-
-    @SerializedName("description")
-    val description: String = "",
-
-    @SerializedName("icon")
-    val icon: String = "",
-
-    @SerializedName("id")
-    val id: Int = 0,
-
-    @SerializedName("main")
-    val main: String = ""
-)
-
-@Entity(tableName = "Rain")
-data class Rain(
-    @PrimaryKey
-    @ColumnInfo(name = "RainID")
-    val rainId: String = UUID.randomUUID().toString(),
-
-    @SerializedName("1h")
-    val `1h`: Double = 0.0
-)
-
-@Entity(tableName = "WeatherDetail")
-data class WeatherDetail(
-    @PrimaryKey
-    @ColumnInfo(name = "weatherdetailid")
-    val weatheDetailyId: String = UUID.randomUUID().toString(),
-
-    @SerializedName("description")
-    val description: String = "",
-
-    @SerializedName("icon")
-    val icon: String = "",
-
-    @SerializedName("id")
-    val id: Int = 0,
-
-    @SerializedName("main")
-    val main: String = ""
-)
+//package com.example.weatherforecast.db.tblModel
+//
+//import androidx.room.*
+//import com.google.gson.annotations.SerializedName
+//import java.util.*
+//
+//
+//@Entity(tableName = "tblweatheronecall")
+//data class TblWeatherOneCall(
+//    @PrimaryKey
+//    @ColumnInfo(name = "tblweatheroncallId")
+//    var id: String = UUID.randomUUID().toString(),
+//
+//    @SerializedName("current")
+//    @Relation(
+//        parentColumn = "currentId",
+//        entityColumn = "tblweatheroncallId"
+//    )
+//    var current: Current = Current(),
+//
+//    @SerializedName("daily")
+//    @Relation(
+//        parentColumn = "dailyId",
+//        entityColumn = "tblweatheroncallId"
+//    )
+//    var daily: List<Daily> = listOf(),
+//
+//    @SerializedName("hourly")
+//    @Relation(
+//        parentColumn = "hourlyId",
+//        entityColumn = "tblweatheroncallId"
+//    )
+//    var hourly: List<Hourly> = listOf(),
+//
+//    @SerializedName("lat")
+//    @ColumnInfo(name = "lat")
+//    var lat: Double = 0.0,
+//
+//    @SerializedName("lon")
+//    @ColumnInfo(name = "lon")
+//    var lon: Double = 0.0,
+//
+//    @SerializedName("minutely")
+//    @Relation(
+//        parentColumn = "minutelyId",
+//        entityColumn = "tblweatheroncallId"
+//    )
+//    var minutely: List<Minutely> = listOf(),
+//
+//    @SerializedName("timezone")
+//    @ColumnInfo(name = "timezone")
+//    var timezone: String = "",
+//
+//    @SerializedName("timezone_offset")
+//    @ColumnInfo(name = "timezoneoffset")
+//    var timezone_offset: Int = 0
+//)
+//
+//@Entity(tableName = "current")
+//data class Current(
+//    @PrimaryKey
+//    @ColumnInfo(name = "currentId")
+//    var currentId: String = UUID.randomUUID().toString(),
+//
+//    @SerializedName("clouds")
+//    @ColumnInfo(name = "clouds")
+//    var clouds: Int = 0,
+//
+//    @SerializedName("dew_point")
+//    @ColumnInfo(name = "dewpoint")
+//    var dew_point: Double = 0.0,
+//
+//    @SerializedName("dt")
+//    @ColumnInfo(name = "dt")
+//    var dt: Int = 0,
+//
+//    @SerializedName("feels_like")
+//    @ColumnInfo(name = "feelslike")
+//    var feels_like: Double = 0.0,
+//
+//    @SerializedName("humidity")
+//    @ColumnInfo(name = "humidity")
+//    var humidity: Int = 0,
+//
+//    @SerializedName("pressure")
+//    @ColumnInfo(name = "pressure")
+//    var pressure: Int = 0,
+//
+//    @SerializedName("sunrise")
+//    @ColumnInfo(name = "sunrise")
+//    var sunrise: Int = 0,
+//
+//    @SerializedName("sunset")
+//    @ColumnInfo(name = "sunset")
+//    var sunset: Int = 0,
+//
+//    @SerializedName("temp")
+//    @ColumnInfo(name = "temp")
+//    var temp: Double = 0.0,
+//
+//    @SerializedName("uvi")
+//    @ColumnInfo(name = "uvi")
+//    var uvi: Double = 0.0,
+//
+//    @SerializedName("visibility")
+//    @ColumnInfo(name = "visibility")
+//    var visibility: Int = 0,
+//
+//    @SerializedName("weather")
+//    @Relation(
+//        parentColumn = "currentId",
+//        entityColumn = "weatherId",
+//        entity = Weather::class
+//    )
+//    var weather: List<Weather> = listOf(),
+//
+//    @SerializedName("wind_deg")
+//    @ColumnInfo(name = "winddeg")
+//    var wind_deg: Int = 0,
+//
+//    @SerializedName("wind_speed")
+//    @ColumnInfo(name = "windspeed")
+//    var wind_speed: Double = 0.0
+//)
+//
+//@Entity(tableName = "daily")
+//data class Daily(
+//    @PrimaryKey
+//    @ColumnInfo(name = "dailyId")
+//    var id: String = UUID.randomUUID().toString(),
+//
+//    @SerializedName("clouds")
+//    @ColumnInfo(name = "clouds")
+//    var clouds: Int = 0,
+//
+//    @SerializedName("dew_point")
+//    @ColumnInfo(name = "dewpoint")
+//    var dew_point: Double = 0.0,
+//
+//    @SerializedName("dt")
+//    @ColumnInfo(name = "dt")
+//    var dt: Int = 0,
+//
+//    @SerializedName("feels_like")
+//    @Relation(
+//        parentColumn = "dailyId",
+//        entityColumn = "feelsliksId"
+//    )
+//    var feels_like: FeelsLike,
+//
+//    @SerializedName("humidity")
+//    @ColumnInfo(name = "humidity")
+//    var humidity: Int = 0,
+//
+//    @SerializedName("pressure")
+//    @ColumnInfo(name = "pressure")
+//    var pressure: Int = 0,
+//
+//    @SerializedName("rain")
+//    @ColumnInfo(name = "rain")
+//    var rain: Double = 0.0,
+//
+//    @SerializedName("sunrise")
+//    @ColumnInfo(name = "sunrise")
+//    var sunrise: Int = 0,
+//
+//    @SerializedName("sunset")
+//    @ColumnInfo(name = "sunset")
+//    var sunset: Int = 0,
+//
+//    @SerializedName("temp")
+//    @Relation(
+//        parentColumn = "dailyId",
+//        entityColumn = "tempId"
+//    )
+//    var temp: Temp = Temp(),
+//
+//    @SerializedName("uvi")
+//    @ColumnInfo(name = "uvi")
+//    var uvi: Double = 0.0,
+//
+//    @SerializedName("weather")
+//    @Relation(
+//        parentColumn = "dailyId",
+//        entityColumn = "weatherdailyId"
+//    )
+//    var weather: List<WeatherDetailDaily>,
+//
+//    @SerializedName("wind_deg")
+//    @ColumnInfo(name = "winddeg")
+//    var wind_deg: Int = 0,
+//
+//    @SerializedName("wind_speed")
+//    @ColumnInfo(name = "windspeed")
+//    var wind_speed: Int = 0
+//
+//)
+//
+//@Entity(tableName = "hourly")
+//data class Hourly(
+//    @PrimaryKey
+//    @ColumnInfo(name = "hourlyId")
+//    var id: String = UUID.randomUUID().toString(),
+//
+//    @SerializedName("clouds")
+//    @ColumnInfo(name = "clouds")
+//    var clouds: Int = 0,
+//
+//    @SerializedName("dew_point")
+//    @ColumnInfo(name = "dewpoint")
+//    var dew_point: Double = 0.0,
+//
+//    @SerializedName("dt")
+//    @ColumnInfo(name = "dt")
+//    var dt: Int = 0,
+//
+//    @SerializedName("feels_like")
+//    @ColumnInfo(name = "feelslike")
+//    var feels_like: Double = 0.0,
+//
+//    @SerializedName("humidity")
+//    @ColumnInfo(name = "humidity")
+//    var humidity: Int = 0,
+//
+//    @SerializedName("pressure")
+//    @ColumnInfo(name = "pressure")
+//    var pressure: Int = 0,
+//
+//    @SerializedName("rain")
+//    @Relation(
+//        parentColumn = "hourlyId",
+//        entityColumn = "rainId"
+//    )
+//    var rain: Rain = Rain(),
+//
+//    @SerializedName("temp")
+//    @ColumnInfo(name = "temp")
+//    var temp: Double = 0.0,
+//
+//    @SerializedName("weather")
+//    @Relation(
+//        parentColumn = "hourlyId",
+//        entityColumn = "weatherdetailId"
+//    )
+//    var weather: List<WeatherDetail> = listOf(),
+//
+//    @SerializedName("wind_deg")
+//    @ColumnInfo(name = "winddeg")
+//    var wind_deg: Int = 0,
+//
+//    @SerializedName("wind_speed")
+//    @ColumnInfo(name = "windspeed")
+//    var wind_speed: Double = 0.0
+//)
+//
+//@Entity(tableName = "minutely")
+//data class Minutely(
+//    @PrimaryKey
+//    @ColumnInfo(name = "minutelyId")
+//    var id: String = UUID.randomUUID().toString(),
+//
+//    @SerializedName("dt")
+//    var dt: Int = 0,
+//
+//    @SerializedName("precipitation")
+//    var precipitation: Int = 0
+//)
+//
+//@Entity(tableName = "weather")
+//data class Weather(
+//    @PrimaryKey
+//    @ColumnInfo(name = "weatherId")
+//    var WeatherId: String = UUID.randomUUID().toString(),
+//
+//    @SerializedName("description")
+//    @ColumnInfo(name = "description")
+//    var description: String = "",
+//
+//    @SerializedName("icon")
+//    @ColumnInfo(name = "icon")
+//    var icon: String = "",
+//
+//    @SerializedName("id")
+//    @ColumnInfo(name = "idWeather")
+//    var idWeather: Int = 0,
+//
+//    @SerializedName("main")
+//    @ColumnInfo(name = "main")
+//    var main: String = ""
+//)
+//
+//@Entity(tableName = "feelsliks")
+//data class FeelsLike(
+//    @PrimaryKey
+//    @ColumnInfo(name = "feelsliksId")
+//    var weatherdailyid: String = UUID.randomUUID().toString(),
+//
+//    @SerializedName("day")
+//    var day: Double = 0.0,
+//
+//    @SerializedName("eve")
+//    var eve: Double = 0.0,
+//
+//    @SerializedName("morn")
+//    var morn: Double = 0.0,
+//
+//    @SerializedName("night")
+//    var night: Double = 0.0
+//)
+//
+//@Entity(tableName = "temp")
+//data class Temp(
+//    @PrimaryKey
+//    @ColumnInfo(name = "tempId")
+//    var weatherdailyid: String = UUID.randomUUID().toString(),
+//
+//    @SerializedName("day")
+//    var day: Double = 0.0,
+//
+//    @SerializedName("eve")
+//    var eve: Double = 0.0,
+//
+//    @SerializedName("nigmaxht")
+//    var max: Double = 0.0,
+//
+//    @SerializedName("min")
+//    var min: Double = 0.0,
+//
+//    @SerializedName("morn")
+//    var morn: Double = 0.0,
+//
+//    @SerializedName("night")
+//    var night: Double = 0.0
+//)
+//
+//@Entity(tableName = "weatherDetailDaily")
+//data class WeatherDetailDaily(
+//    @PrimaryKey
+//    @ColumnInfo(name = "weatherdailyId")
+//    var weatherdailyid: String = UUID.randomUUID().toString(),
+//
+//    @SerializedName("description")
+//    var description: String = "",
+//
+//    @SerializedName("icon")
+//    var icon: String = "",
+//
+//    @SerializedName("id")
+//    var idDaily: Int = 0,
+//
+//    @SerializedName("main")
+//    var main: String = ""
+//)
+//
+//@Entity(tableName = "rain")
+//data class Rain(
+//    @PrimaryKey
+//    @ColumnInfo(name = "rainId")
+//    var id: String = UUID.randomUUID().toString(),
+//
+//    @SerializedName("1h")
+//    var `1h`: Double = 0.0
+//)
+//
+//@Entity(tableName = "weatherdetail")
+//data class WeatherDetail(
+//    @PrimaryKey
+//    @ColumnInfo(name = "weatherdetailId")
+//    var weatheDetailyId: String = UUID.randomUUID().toString(),
+//
+//    @SerializedName("description")
+//    var description: String = "",
+//
+//    @SerializedName("icon")
+//    var icon: String = "",
+//
+//    @SerializedName("id")
+//    var idDetail: Int = 0,
+//
+//    @SerializedName("main")
+//    var main: String = ""
+//)
