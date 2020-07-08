@@ -26,14 +26,16 @@ class MainWeatherViewModel : ViewModel() {
         mainTemp.value = 0.0
         tempFeelLike.value = 0.0
         untiTemporalChange.value = false
-        weather.value = WeathResponse(false,"",Weather())
+        weather.value = WeathResponse(false, "", Weather())
     }
 
 
-    fun getCelsiusToFahrenheit(data: Double?): String = data?.celToFah().toString().fromatTemperatureFahrenheit()
+    fun getCelsiusToFahrenheit(data: Double?): String =
+        data?.celToFah().toString().fromatTemperatureFahrenheit()
+
     fun getFahrenheitToCelsius(data: Double?): String =
-        if(untiTemporalChange.value!!) data?.fahToCal().toString().fromatTemperatureCelsius()
-    else data?.toString()?.fromatTemperatureCelsius()!!
+        if (untiTemporalChange.value!!) data?.fahToCal().toString().fromatTemperatureCelsius()
+        else data?.toString()?.fromatTemperatureCelsius()!!
 
     fun getGroupWeatherDay(): MutableList<WeatherDetial>? {
         val data = weather.value?.data?.list

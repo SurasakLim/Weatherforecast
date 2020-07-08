@@ -1,5 +1,6 @@
 package com.example.weatherforecast.uitl
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
@@ -11,8 +12,8 @@ import kotlinx.android.synthetic.main.fragment_wearter_detail.*
 
 object ImageExtension {
 
-    fun ImageView.loadImage(weatherImg: String) {
-        Glide.with(this).load(" http://openweathermap.org/img/wn/$weatherImg@2x.png").into(this)
+    fun ImageView.loadImage(context: Context, weatherImg: String) {
+        Glide.with(context).load("http://openweathermap.org/img/wn/$weatherImg@2x.png").into(this)
     }
 
     fun View.setBackGround(data: Weather){

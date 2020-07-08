@@ -68,24 +68,23 @@ class MainWeatherFragment : DaggerFragment(), WeatherPresenterContract.ViewWeath
         viewModel.weather.value?.apply {
             title_cityname.text = data.city.name
             weath_status.text = data.city.name
-            presenter.getDataGroup()[0].let {
-                val tempMax = it.main.temp_max.toString().fromatTemperatureCelsius()
-                val tempMin = it.main.temp_min.toString().fromatTemperatureCelsius()
-                title_temp.text = it.main.temp.toString().fromatTemperatureCelsius()
-                title_temp_sup.text = "$tempMax/$tempMin"
-                val humidity = it.main.humidity.toString()
-                weath_status_sub.text = "Humidity $humidity %"
-            }
+        }
 
-            presenter.getDataGroup()[0].let { it ->
-                weath_status.text = it.weatherX[0].description
-                it.weatherX[0].icon.let {
-                    Glide.with(this@MainWeatherFragment)
-                        .load("http://openweathermap.org/img/wn/$it@2x.png")
-                        .into(icon_weather)
-                }
+        presenter.getDataGroup()[0].let {
+            val tempMax = it.main.temp_max.toString().fromatTemperatureCelsius()
+            val tempMin = it.main.temp_min.toString().fromatTemperatureCelsius()
+            title_temp.text = it.main.temp.toString().fromatTemperatureCelsius()
+            title_temp_sup.text = "$tempMax/$tempMin"
+            val humidity = it.main.humidity.toString()
+            weath_status_sub.text = "Humidity $humidity %"
+            weath_status.text = it.weatherX[0].description
+            it.weatherX[0].icon.let {
+                Glide.with(this@MainWeatherFragment)
+                    .load("http://openweathermap.org/img/wn/$it@2x.png")
+                    .into(icon_weather)
             }
         }
+
         switch_temp.setOnClickListener {
             presenter.getDataGroup()[0].let {
                 val mainTemp: String
@@ -122,7 +121,7 @@ class MainWeatherFragment : DaggerFragment(), WeatherPresenterContract.ViewWeath
     override fun onSetDataAdapter(dataExan: ArrayList<WeatherList>) {
 
         adapterExpan = WeatherExpanAdapter(dataExan)
-        val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this.context)
+        val layoutManager = LinearLayoutManager(this.context)
 
         list_future_weather.apply {
             this.layoutManager = layoutManager
@@ -132,7 +131,7 @@ class MainWeatherFragment : DaggerFragment(), WeatherPresenterContract.ViewWeath
         if (animator is DefaultItemAnimator) {
             animator.supportsChangeAnimations = false
         }
-        adapterExpan.isGroupExpanded(0)
+//        adapterExpan.isGroupExpanded(0)
     }
 
 }

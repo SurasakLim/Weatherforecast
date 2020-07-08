@@ -22,13 +22,14 @@ class WeatherPresenter(var view:WeatherPresenterContract.ViewWeather):WeatherPre
 
 
         dataParss.forEach {it->
-            val head = WeatherList()
-            head.nameTitleDay = it.dt_txt
-            head.tempMax = it.main.temp_max
-            head.tempMin = it.main.temp_min
-            head.dataChild = weath.list.filter {it2->
-                it.dt_txt == it2.dt_txt
-            }.toCollection(arrayListOf())
+            val head = WeatherList(
+                it.dt_txt,
+                it.main.temp_max,
+                it.main.temp_min,
+                weath.list.filter {it2->
+                    it.dt_txt == it2.dt_txt
+                }.toCollection(arrayListOf())
+            )
             dataExan.add(head)
         }
         view.onSetDataAdapter(dataExan)
