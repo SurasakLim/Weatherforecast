@@ -5,6 +5,7 @@ import com.example.weatherforecast.uitl.AccessToken
 import com.example.weatherforecast.uitl.Config
 import com.example.weatherforecast.uitl.LiveNetworkMonitor
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 object ServiceApi {
     val url = "https://api.openweathermap.org/data/2.5/"
@@ -22,7 +23,7 @@ object ServiceApi {
 
     fun provideConfig(baseUrl: String): Config {
         return Config(
-            HttpUrl.parse(baseUrl)!!,
+            baseUrl.toHttpUrlOrNull()!!,
             "en",
             AccessToken()
         )

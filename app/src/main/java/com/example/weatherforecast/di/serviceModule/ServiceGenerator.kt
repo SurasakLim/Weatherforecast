@@ -25,6 +25,7 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
+
 object ServiceGenerator {
     fun <T> create(context: Context?, networkMonitor: LiveMonitorInterface, config: Config, clazz: Class<T>): T {
 
@@ -64,16 +65,16 @@ object ServiceGenerator {
             val sslSocketFactory = sslContext.socketFactory
 
             httpClient.sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
-            httpClient.hostnameVerifier { _, _ -> true }
+//            httpClient.hostnameVerifier()
 
         } catch (e: Exception) {
             Log.e("Error",e.message!!)
         }
 
-        val logger = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message -> Log.i("Error",message) })
-        logger.level = HttpLoggingInterceptor.Level.BODY
+        val logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
 
-        httpClient.addInterceptor(logger)
+        httpClient.addInterceptor(logging)
 
         httpClient.addInterceptor { chain ->
             val original = chain.request()
@@ -110,31 +111,4 @@ object ServiceGenerator {
         return retrofit.create(clazz)
     }
 
-    /**
-     * GET Value Request
-     *
-     * @param request
-     * @return
-     */
-    private fun toString(request: Request): String? {
-        try {
-            if (request.method() == "GET") {
-                return request.url().query()
-            } else {
-                val copy = request.newBuilder().build()
-                if (copy != null) {
-                    val buffer = Buffer()
-                    val body = copy.body()
-                    if (body != null) {
-                        body.writeTo(buffer)
-                        return buffer.readUtf8()
-                    }
-                }
-            }
-            return "null"
-        } catch (e: IOException) {
-            return "did not work"
-        }
-
-    }
 }

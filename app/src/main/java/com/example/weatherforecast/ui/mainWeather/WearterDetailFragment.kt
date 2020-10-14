@@ -1,11 +1,13 @@
 package com.example.weatherforecast.ui.mainWeather
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -15,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecast.R
 import com.example.weatherforecast.databinding.FragmentWearterDetailBinding
 import com.example.weatherforecast.ui.mainWeather.model.Weather
-import com.example.weatherforecast.ui.mainWeather.model.WeatherStatusMain
 import com.example.weatherforecast.uitl.DialogWarning
 import com.example.weatherforecast.uitl.ImageExtension.setBackGround
 import com.example.weatherforecast.uitl.StringExtenion.dateToDay
@@ -28,13 +29,21 @@ import javax.inject.Inject
 
 
 class WearterDetailFragment : DaggerFragment(), MainWeatherContract.View {
+    companion object {
 
+        private const val AUTO_HIDE = true
+
+        private const val AUTO_HIDE_DELAY_MILLIS = 3000
+
+        private const val UI_ANIMATION_DELAY = 300
+    }
+    private val hideRunnable = Runnable { hide() }
+    private var visible: Boolean = false
+    private val hideHandler = Handler()
     private lateinit var binding: FragmentWearterDetailBinding
+
     @Inject
     lateinit var viewModelWeath: MainWeatherViewModel
-
-//    @Inject
-//    lateinit var dataBaseWeather : WeatherDataBase
 
     @Inject
     lateinit var presenter: MainWeatherPresenter
@@ -75,7 +84,10 @@ class WearterDetailFragment : DaggerFragment(), MainWeatherContract.View {
             progressBar.visibility = View.VISIBLE
             presenter.onGetWeatherData(editText.text.toString())
         }
-
+        content_weather.setOnClickListener {
+            toggle()
+        }
+        delayedHide(AUTO_HIDE_DELAY_MILLIS)
     }
 
     @SuppressLint("UseRequireInsteadOfGet")
@@ -125,6 +137,12 @@ class WearterDetailFragment : DaggerFragment(), MainWeatherContract.View {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        hide()
+    }
+
     override fun onErrorWeather(message: String) {
         this@WearterDetailFragment.context?.let {
             DialogWarning.Builder(it).create(message)
@@ -139,6 +157,47 @@ class WearterDetailFragment : DaggerFragment(), MainWeatherContract.View {
     override fun onLoaded() {
         bg_loading.visibility = View.GONE
         progressBar.visibility = View.GONE
+    }
+    private fun hide() {
+        // Schedule a runnable to remove the status and navigation bar after a delay
+        visible = false
+        hideHandler.postDelayed(hidePart2Runnable, UI_ANIMATION_DELAY.toLong())
+    }
+
+    @Suppress("InlinedApi")
+    private fun show() {
+
+        // Schedule a runnable to display UI elements after a delay
+        visible = true
+        hideHandler.removeCallbacks(hidePart2Runnable)
+        (activity as? AppCompatActivity)?.supportActionBar?.show()
+    }
+
+    @Suppress("InlinedApi")
+    private val hidePart2Runnable = Runnable {
+
+        val flags =
+            View.SYSTEM_UI_FLAG_LOW_PROFILE or
+                    View.SYSTEM_UI_FLAG_FULLSCREEN or
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        activity?.window?.decorView?.systemUiVisibility = flags
+        (activity as? AppCompatActivity)?.supportActionBar?.hide()
+    }
+
+    private fun toggle() {
+        if (visible) {
+            hide()
+        } else {
+            show()
+        }
+    }
+
+    private fun delayedHide(delayMillis: Int) {
+        hideHandler.removeCallbacks(hideRunnable)
+        hideHandler.postDelayed(hideRunnable, delayMillis.toLong())
     }
 
 }

@@ -25,6 +25,7 @@
         android:background="@color/colorCaradWeather">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content_weather"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".ui.mainWeather.WearterDetailFragment">

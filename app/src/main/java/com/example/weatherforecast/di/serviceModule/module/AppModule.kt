@@ -1,6 +1,7 @@
 package com.example.weatherforecast.di.serviceModule.module
 
 import android.app.Application
+import com.example.weatherforecast.db.WeatherDataBase
 import com.example.weatherforecast.uitl.AppExecutors
 import com.example.weatherforecast.uitl.LiveNetworkMonitor
 import dagger.Module
@@ -14,9 +15,9 @@ class AppModule {
     @Provides
     fun provideContext(app: Application) = app.applicationContext
 
-//    @Singleton
-//    @Provides
-//    fun provideDataBase(app: Application) = WeatherDataBase.getInstance(app)
+    @Singleton
+    @Provides
+    fun provideDataBase(app: Application) = WeatherDataBase.getInstance(app)
 
     @Singleton
     @Provides

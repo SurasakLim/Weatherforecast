@@ -8,4 +8,5 @@
     <color name="colorWeatherItem">#F5428CD0</color>
     <color name="colorDetiveItem">#4D666666</color>
     <color name="colorActiveItem">#ffffff</color>
+    <color name="black_overlay">#66000000</color>
 </resources>
