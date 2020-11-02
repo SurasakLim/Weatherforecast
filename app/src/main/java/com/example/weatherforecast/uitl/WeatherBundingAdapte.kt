@@ -33,6 +33,13 @@ object WeatherBundingAdapte {
 
     @SuppressLint("SetTextI18n")
     @JvmStatic
+    @BindingAdapter("android:txtFormatCloud")
+    fun txtFormatCloud(textView:TextView,data:Double){
+        textView.text = "scattered clouds: $data%"
+    }
+
+    @SuppressLint("SetTextI18n")
+    @JvmStatic
     @BindingAdapter("android:txtFormatHumidity")
     fun txtFormatHumidity(textView:TextView,data:Double){
         textView.text = "$data %"

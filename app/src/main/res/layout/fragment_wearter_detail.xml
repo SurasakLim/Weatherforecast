@@ -34,9 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="160dp"
-                android:shadowColor="@color/cardview_shadow_start_color"
-                android:shadowDx="@android:integer/config_shortAnimTime"
-                android:shadowRadius="@android:integer/config_mediumAnimTime"
+                style="@style/ShadowTextViewStyle"
                 android:text="@{viewModel.untiTemporalChange == true ? viewModel.getCelsiusToFahrenheit(viewModel.mainTemp) : viewModel.getFahrenheitToCelsius(viewModel.mainTemp)}"
                 android:textColor="@android:color/white"
                 android:textSize="40sp"
@@ -52,9 +50,7 @@
                 android:id="@+id/tit_temp_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:shadowColor="@color/cardview_shadow_start_color"
-                android:shadowDx="@android:integer/config_shortAnimTime"
-                android:shadowRadius="@android:integer/config_mediumAnimTime"
+                style="@style/ShadowTextViewStyle"
                 android:text="@{currentItem.component4().get(0).component9().get(0).component1()}"
                 android:textColor="@android:color/white"
                 app:layout_constraintBottom_toTopOf="@+id/title_tmep_d"
@@ -66,8 +62,8 @@
                 android:id="@+id/title_city_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:shadowDx="@android:integer/config_shortAnimTime"
-                android:shadowRadius="@android:integer/config_mediumAnimTime"
+                style="@style/ShadowTextViewStyle"
+
                 android:text="@{currentItem.component1().component4()}"
                 android:textColor="@android:color/white"
                 android:textSize="45sp"
@@ -85,6 +81,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:ems="10"
+                style="@style/ShadowTextViewStyle"
+
                 android:hint="@string/label_city_name"
                 android:inputType="textPersonName"
                 android:textColor="@android:color/white"
@@ -107,6 +105,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/title_f"
+                    style="@style/ShadowTextViewStyle"
+
                     android:textColor="@color/colorDetiveItem"
                     app:layout_constraintBottom_toTopOf="@+id/title_city_name"
                     app:layout_constraintStart_toStartOf="@+id/guideline4" />
@@ -117,6 +117,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:text="@string/title_c"
+                    style="@style/ShadowTextViewStyle"
+
                     android:textColor="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="@+id/tit_temp_f"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -155,6 +157,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:text="@string/tit_wind"
+                style="@style/ShadowTextViewStyle"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guideline5" />
@@ -164,6 +167,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
+                style="@style/ShadowTextViewStyle"
                 android:txtFormatWind="@{currentItem.component4().get(0).component10().component2()}"
                 app:layout_constraintEnd_toEndOf="@+id/textView7"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -177,6 +181,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:text="@string/tit_feellike"
+                style="@style/ShadowTextViewStyle"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/guideline6"
                 app:layout_constraintTop_toTopOf="@+id/textView7" />
@@ -185,9 +190,7 @@
                 android:id="@+id/txt_feellike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:shadowColor="@color/cardview_shadow_start_color"
-                android:shadowDx="@android:integer/config_shortAnimTime"
-                android:shadowRadius="@android:integer/config_mediumAnimTime"
+                style="@style/ShadowTextViewStyle"
                 android:text="@{viewModel.untiTemporalChange == true ? viewModel.getCelsiusToFahrenheit(viewModel.tempFeelLike) : viewModel.getFahrenheitToCelsius(viewModel.tempFeelLike)}"
                 android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="@+id/textView9"
@@ -202,6 +205,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="@string/tit_cloud"
+                style="@style/ShadowTextViewStyle"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/textView7"
                 app:layout_constraintTop_toBottomOf="@+id/txt_d_wind" />
@@ -210,10 +214,9 @@
                 android:id="@+id/txt_cloud"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:shadowColor="@color/cardview_shadow_start_color"
-                android:shadowDx="@android:integer/config_shortAnimTime"
-                android:shadowRadius="@android:integer/config_mediumAnimTime"
-                android:text="scattered clouds: 25-50%	"
+                style="@style/ShadowTextViewStyle"
+                android:txtFormatCloud="@{currentItem.component4().get(0).component1().component1()}"
+                tools:text="scattered clouds: 25-50%"
                 android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="@+id/textView11"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -226,6 +229,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="@string/tit_humity"
+                style="@style/ShadowTextViewStyle"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="@+id/textView9"
                 app:layout_constraintTop_toBottomOf="@+id/txt_feellike" />
@@ -234,9 +238,7 @@
                 android:id="@+id/textView14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:shadowColor="@color/cardview_shadow_start_color"
-                android:shadowDx="@android:integer/config_shortAnimTime"
-                android:shadowRadius="@android:integer/config_mediumAnimTime"
+                style="@style/ShadowTextViewStyle"
                 android:textColor="@android:color/white"
                 android:txtFormatHumidity="@{currentItem.component4().get(0).component5().component3()}"
                 app:layout_constraintEnd_toEndOf="@+id/textView13"
@@ -250,11 +252,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:shadowColor="@color/cardview_shadow_start_color"
-                android:shadowDx="@android:integer/config_shortAnimTime"
-                android:shadowRadius="@android:integer/config_mediumAnimTime"
+                style="@style/ShadowTextViewStyle"
                 android:textColor="@android:color/white"
-
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -268,6 +267,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="50dp"
                 android:text="@string/tit_snow"
+                style="@style/ShadowTextViewStyle"
                 android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textView7"
@@ -277,9 +277,7 @@
                 android:id="@+id/textView17"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:shadowColor="@color/cardview_shadow_start_color"
-                android:shadowDx="@android:integer/config_shortAnimTime"
-                android:shadowRadius="@android:integer/config_mediumAnimTime"
+                style="@style/ShadowTextViewStyle"
                 android:textColor="@android:color/white"
                 android:txtFormatHumidity="@{currentItem.component4().get(0).component7().component1()}"
                 app:layout_constraintEnd_toEndOf="@+id/textView16"
@@ -293,9 +291,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:textColor="@android:color/white"
+                style="@style/ShadowTextViewStyle"
                 android:text="@string/tit_view_curret"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/featue_list" />
+                app:layout_constraintTop_toBottomOf="@+id/featue_list"
+                tools:ignore="PrivateResource" />
 
             <View
                 android:id="@+id/bg_loading"
@@ -334,6 +335,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView15"
                 app:layout_constraintVertical_bias="0.104"
                 tools:listitem="@layout/item_current_feature" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/title_chenge_temp"
+                style="@style/ShadowTextViewStyle"
+
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/chang_temp"
+                app:layout_constraintEnd_toStartOf="@+id/chang_temp"
+                app:layout_constraintTop_toBottomOf="@+id/editText" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

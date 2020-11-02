@@ -1,5 +1,6 @@
 package com.example.weatherforecast.ui.mainWeather.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.weatherforecast.R
@@ -16,7 +17,6 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 class WeatherExpanAdapter(listEx: ArrayList<WeatherList>) :
     ExpandableRecyclerViewAdapter<WeatherGroupViewHodler, WeatherChildViewHolder>(listEx) {
 
-    private var defalteTemp: Boolean = true
     private var switcherTemp: Boolean = false
 
     override fun onCreateGroupViewHolder(
@@ -52,11 +52,11 @@ class WeatherExpanAdapter(listEx: ArrayList<WeatherList>) :
     }
 
     fun switchWemp() {
-        defalteTemp = false
         switcherTemp = !switcherTemp
         notifyDataSetChanged()
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindGroupViewHolder(
         holder: WeatherGroupViewHodler?,
         flatPosition: Int,
@@ -67,16 +67,11 @@ class WeatherExpanAdapter(listEx: ArrayList<WeatherList>) :
             titDay.text = head.nameTitleDay
             val max = head.tempMax
             val min = head.tempMin
-            if(!defalteTemp){
-                if (switcherTemp) {
-                    titTempHead.text = getFahrenheitToCelsius(max)+ "/" + getFahrenheitToCelsius(min)
-                } else {
-                    titTempHead.text = getCelsiusToFahrenheit(max)+ "/" + getCelsiusToFahrenheit(min)
-                }
+            if (!switcherTemp) {
+                titTempHead.text = "${max.toString().fromatTemperatureCelsius()} / ${min.toString().fromatTemperatureCelsius()}"
             } else {
-                titTempHead.text ="${max.toString().fromatTemperatureCelsius()} / ${min.toString().fromatTemperatureCelsius()}"
+                titTempHead.text = getCelsiusToFahrenheit(max)+ "/" + getCelsiusToFahrenheit(min)
             }
-
         }
     }
 

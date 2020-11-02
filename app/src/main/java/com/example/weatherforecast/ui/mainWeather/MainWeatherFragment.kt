@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemAnimator
 import com.bumptech.glide.Glide
 import com.example.weatherforecast.R
@@ -17,8 +15,11 @@ import com.example.weatherforecast.ui.mainWeather.model.Weather
 import com.example.weatherforecast.ui.mainWeather.model.WeatherDetial
 import com.example.weatherforecast.ui.mainWeather.model.WeatherList
 import com.example.weatherforecast.uitl.ImageExtension.setBackGround
+import com.example.weatherforecast.uitl.StringExtenion.celToFah
 import com.example.weatherforecast.uitl.StringExtenion.dateToDay
+import com.example.weatherforecast.uitl.StringExtenion.fahToCal
 import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureCelsius
+import com.example.weatherforecast.uitl.StringExtenion.fromatTemperatureFahrenheit
 import com.example.weatherforecast.uitl.StringExtenion.getCelsiusToFahrenheit
 import com.example.weatherforecast.uitl.StringExtenion.getFahrenheitToCelsius
 import dagger.android.support.DaggerFragment
@@ -70,7 +71,7 @@ class MainWeatherFragment : DaggerFragment(), WeatherPresenterContract.ViewWeath
             weath_status.text = data.city.name
         }
 
-        presenter.getDataGroup()[0].let {
+        presenter.getDataGroup().value?.get(0)?.let {
             val tempMax = it.main.temp_max.toString().fromatTemperatureCelsius()
             val tempMin = it.main.temp_min.toString().fromatTemperatureCelsius()
             title_temp.text = it.main.temp.toString().fromatTemperatureCelsius()
@@ -86,35 +87,40 @@ class MainWeatherFragment : DaggerFragment(), WeatherPresenterContract.ViewWeath
         }
 
         switch_temp.setOnClickListener {
-            presenter.getDataGroup()[0].let {
-                val mainTemp: String
-                val tempMax: String
-                val tempMin: String
-                if (switcherTemp) {
-                    switcherTemp = !switcherTemp
-                    mainTemp = getFahrenheitToCelsius(it.main.temp)
-                    tempMax = getFahrenheitToCelsius(it.main.temp_max)
-                    tempMin = getFahrenheitToCelsius(it.main.temp_min)
-                    tit_temp_f_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorDetiveItem)!!)
-                    tit_temp_c_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorActiveItem)!!)
-
-                } else {
-                    switcherTemp = !switcherTemp
-                    mainTemp = getCelsiusToFahrenheit(it.main.temp)
-                    tempMax = getCelsiusToFahrenheit(it.main.temp_max)
-                    tempMin = getCelsiusToFahrenheit(it.main.temp_min)
-                    tit_temp_f_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorActiveItem)!!)
-                    tit_temp_c_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorDetiveItem)!!)
-
-                }
-                adapterExpan.switchWemp()
-                title_temp.text = mainTemp
-                title_temp_sup.text = "$tempMax/$tempMin"
-            }
-
+            presenter.getDataGroup().value?.get(0)?.let {onSwitchTemp(it.copy())}
         }
 
 
+    }
+
+    @SuppressLint("UseRequireInsteadOfGet", "SetTextI18n")
+    private fun onSwitchTemp(listTemp: WeatherDetial) {
+
+        listTemp.let {
+            val mainTemp: String
+            val tempMax: String
+            val tempMin: String
+            if (!switcherTemp) {
+                switcherTemp = !switcherTemp
+                mainTemp = it.main.temp.celToFah().toString().fromatTemperatureFahrenheit()
+                tempMax = it.main.temp_max.celToFah().toString().fromatTemperatureFahrenheit()
+                tempMin = it.main.temp_min.celToFah().toString().fromatTemperatureFahrenheit()
+                tit_temp_f_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorDetiveItem)!!)
+                tit_temp_c_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorActiveItem)!!)
+
+            } else {
+                switcherTemp = !switcherTemp
+                mainTemp = it.main.temp.toString().fromatTemperatureCelsius()
+                tempMax = it.main.temp_max.toString().fromatTemperatureCelsius()
+                tempMin = it.main.temp_min.toString().fromatTemperatureCelsius()
+                tit_temp_f_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorActiveItem)!!)
+                tit_temp_c_d.setTextColor(this@MainWeatherFragment.context?.getColor(R.color.colorDetiveItem)!!)
+
+            }
+            adapterExpan.switchWemp()
+            title_temp.text = mainTemp
+            title_temp_sup.text = "$tempMax/$tempMin"
+        }
     }
 
 
@@ -131,7 +137,6 @@ class MainWeatherFragment : DaggerFragment(), WeatherPresenterContract.ViewWeath
         if (animator is DefaultItemAnimator) {
             animator.supportsChangeAnimations = false
         }
-//        adapterExpan.isGroupExpanded(0)
     }
 
 }

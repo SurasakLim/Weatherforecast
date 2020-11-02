@@ -11,10 +11,11 @@
     <string name="tit_cloud">CLOUD</string>
     <string name="tit_humity">HUMIDITY</string>
     <string name="tit_snow">SNOW</string>
-    <string name="tit_view_curret">View weather detail</string>
+    <string name="tit_view_curret">Click view weather detail of week</string>
     <string name="by_ok">OK</string>
     <string name="title_activity_main2">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_chenge_temp">Switch</string>
 </resources>
