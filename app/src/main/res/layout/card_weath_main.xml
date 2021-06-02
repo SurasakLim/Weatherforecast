@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/icon_weather"
+            android:id="@+id/ivIconWeather"
             android:layout_width="85dp"
             android:layout_height="75dp"
             android:layout_marginStart="28dp"
@@ -27,7 +27,7 @@
             tools:srcCompat="@drawable/ic_clouds_main" />
 
         <TextView
-            android:id="@+id/title_cityname"
+            android:id="@+id/tvTitleCityName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-light"
@@ -35,23 +35,23 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toTopOf="@+id/icon_weather"
+            app:layout_constraintTop_toTopOf="@+id/ivIconWeather"
             tools:text="City name" />
 
         <TextView
-            android:id="@+id/weath_status"
+            android:id="@+id/tvWeatherStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:fontFamily="sans-serif-condensed-light"
             android:textColor="@color/cardview_light_background"
             android:textSize="13sp"
-            app:layout_constraintStart_toStartOf="@+id/title_cityname"
-            app:layout_constraintTop_toBottomOf="@+id/title_cityname"
+            app:layout_constraintStart_toStartOf="@+id/tvTitleCityName"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitleCityName"
             tools:text="weather status" />
 
         <TextView
-            android:id="@+id/weath_status_sub"
+            android:id="@+id/tvSupStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -59,10 +59,10 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textColor="@color/cardview_light_background"
             android:textSize="13sp"
-            app:layout_constraintEnd_toEndOf="@+id/weath_status"
+            app:layout_constraintEnd_toEndOf="@+id/tvWeatherStatus"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/weath_status"
-            app:layout_constraintTop_toBottomOf="@+id/weath_status"
+            app:layout_constraintStart_toStartOf="@+id/tvWeatherStatus"
+            app:layout_constraintTop_toBottomOf="@+id/tvWeatherStatus"
             tools:text="weather status" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -73,7 +73,7 @@
             app:layout_constraintGuide_begin="216dp" />
 
         <TextView
-            android:id="@+id/title_temp"
+            android:id="@+id/tvMainTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
@@ -82,17 +82,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.31"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/title_cityname"
+            app:layout_constraintTop_toTopOf="@+id/tvTitleCityName"
             tools:text="32 \u2103" />
 
         <TextView
-            android:id="@+id/title_temp_sup"
+            android:id="@+id/tvSubTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
-            app:layout_constraintEnd_toEndOf="@+id/title_temp"
-            app:layout_constraintStart_toStartOf="@+id/title_temp"
-            app:layout_constraintTop_toBottomOf="@+id/title_temp"
+            app:layout_constraintEnd_toEndOf="@+id/tvMainTemp"
+            app:layout_constraintStart_toStartOf="@+id/tvMainTemp"
+            app:layout_constraintTop_toBottomOf="@+id/tvMainTemp"
             tools:text="32\u2103/35\u2103" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -103,26 +103,26 @@
             app:layout_constraintGuide_begin="126dp" />
 
         <TextView
-            android:id="@+id/txt_date_now"
+            android:id="@+id/tvDateNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="30sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             tools:text="Date Now"
-            app:layout_constraintBottom_toTopOf="@+id/icon_weather"
-            app:layout_constraintStart_toStartOf="@+id/icon_weather"
+            app:layout_constraintBottom_toTopOf="@+id/ivIconWeather"
+            app:layout_constraintStart_toStartOf="@+id/ivIconWeather"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <LinearLayout
-            android:id="@+id/switch_temp"
+            android:id="@+id/bSwitchTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            app:layout_constraintBottom_toTopOf="@+id/title_temp"
-            app:layout_constraintEnd_toEndOf="@+id/title_temp"
-            app:layout_constraintStart_toStartOf="@+id/title_temp"
+            app:layout_constraintBottom_toTopOf="@+id/tvMainTemp"
+            app:layout_constraintEnd_toEndOf="@+id/tvMainTemp"
+            app:layout_constraintStart_toStartOf="@+id/tvMainTemp"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView

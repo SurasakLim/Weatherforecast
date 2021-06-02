@@ -3,38 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_weather"
-    app:startDestination="@id/wearterDetailFragment"
+    app:startDestination="@id/wearterMainFragment"
     tools:ignore="UnusedNavigation">
 
+    <fragment
+        android:id="@+id/wearterMainFragment"
+        android:name="com.example.weatherforecast.ui.screen.mainWeather.WearterMainFragment"
+        android:label="fragment_wearter_detail"
+        tools:layout="@layout/fragment_wearter_detail">
+
+        <action
+            android:id="@+id/actionMainWeatherFragmentToWeatherCurrentFragment"
+            app:destination="@id/weatherCurrentFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit">
+
+            <argument
+                android:name="itemWeatherDeatial"
+                app:argType="com.example.weatherforecast.ui.screen.mainWeather.model.Weather" />
+        </action>
+    </fragment>
 
     <fragment
-        android:id="@+id/mainWeatherFragment2"
-        android:name="com.example.weatherforecast.ui.mainWeather.MainWeatherFragment"
+        android:id="@+id/weatherCurrentFragment"
+        android:name="com.example.weatherforecast.ui.screen.weathercurrent.WeatherCurrentFragment"
         android:label="main_weather_fragment"
         tools:layout="@layout/main_weather_fragment">
 
         <argument
             android:name="itemWeatherDeatial"
-            app:argType="com.example.weatherforecast.ui.mainWeather.model.Weather" />
-
-
-    </fragment>
-    <fragment
-        android:id="@+id/wearterDetailFragment"
-        android:name="com.example.weatherforecast.ui.mainWeather.WearterDetailFragment"
-        android:label="fragment_wearter_detail"
-        app:defaultNavHost="true"
-        tools:layout="@layout/fragment_wearter_detail">
-
-        <action
-            android:id="@+id/action_wearterDetailFragment_to_mainWeatherFragment2"
-            app:destination="@id/mainWeatherFragment2"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:exitAnim="@anim/fragment_open_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit"
-            app:popUpTo="@id/wearterDetailFragment" />
-
-
+            app:argType="com.example.weatherforecast.ui.screen.mainWeather.model.Weather" />
     </fragment>
 </navigation>

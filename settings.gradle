@@ -1,2 +1,3 @@
-rootProject.name='Weatherforecast'
-include ':app'
+rootProject.name = 'Weatherforecast'
+include ':weather-api'
+include ':app', ':common-rx'

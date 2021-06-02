@@ -1,0 +1,63 @@
+
+project.ext.react = [
+        enableHermes: true,
+        modulesDir: "$rootProject.projectDir"
+]
+def enableHermes = project.ext.react.get("enableHermes", true);
+
+def useIntlJsc = false
+
+ext {
+    googlePlayServicesVersion = "17.0.0"
+    androidMapsUtilsVersion = "2.2.2"
+}
+
+dependencies {
+    implementation 'com.facebook.react:react-native:0.63.3'
+    implementation project(':rn-fetch-blob')
+    implementation(project(':react-native-google-signin')) {
+        exclude group: "com.google.android.gms"
+    }
+    implementation project(':react-native-image-crop-picker')
+    implementation project(':react-native-date-picker')
+    implementation project(':react-native-webview')
+    implementation project(':react-native-device-info')
+    implementation project(':react-native-fs')
+    implementation project(':react-native-permissions')
+    implementation project(':react-native-community-geolocation')
+    implementation project(':react-native-vector-icons')
+    implementation project(':react-native-orientation')
+    implementation project(':react-native-fast-image')
+    implementation project(':react-native-gesture-handler')
+    implementation project(':react-native-reanimated')
+    implementation project(':react-native-safe-area-context')
+    implementation project(':react-native-share')
+    implementation project(':react-native-linear-gradient')
+    implementation project(':react-native-community-slider')
+    implementation project(':react-native-video')
+    implementation project(':react-native-cardview')
+    implementation project(':react-native-keep-awake')
+    implementation project(':react-native-svg')
+    implementation project(':react-native-maps')
+    implementation project(':react-native-sound')
+    implementation project(':react-native-geolocation-service')
+    implementation project(':react-native-android-location-enabler')
+    implementation project(':react-native-view-shot')
+    implementation project(':react-native-pdf')
+    implementation "com.google.android.gms:play-services-maps:$googlePlayServicesVersion"
+    implementation "com.google.maps.android:android-maps-utils:$androidMapsUtilsVersion"
+
+    if (enableHermes) {
+        def hermesPath = project.ext.react.get("modulesDir") + "/node_modules/hermes-engine/android/";
+        debugImplementation files(hermesPath + "hermes-debug.aar")
+        releaseImplementation files(hermesPath + "hermes-release.aar")
+    } else {
+        implementation 'org.webkit:android-jsc:+'
+    }
+
+    if (useIntlJsc) {
+        implementation 'org.webkit:android-jsc-intl:+'
+    } else {
+        implementation 'org.webkit:android-jsc:+'
+    }
+}

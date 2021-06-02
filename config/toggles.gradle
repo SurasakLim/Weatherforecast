@@ -1,0 +1,146 @@
+import groovy.json.JsonSlurper
+
+ext {
+    envUat = "androidUat"
+    envSit = "androidSit"
+    envProd = "androidProd"
+    envPvt = "androidPvt"
+    envDev = "androidDev"
+    searchKey = "toggleName"
+    def featuresKey = "features"
+    def filePathProd = "../app-v3/src/main/res/raw/config_prod.json"
+    def filePathNonProd = "../app-v3/src/main/res/raw/config_non_prod.json"
+    def jsonDataProd = null
+    def jsonDataNonProd = null
+    readJsonFile = {
+        jsonFileProd = file(filePathProd)
+        jsonFileNonProd = file(filePathNonProd)
+        if (jsonFileProd.exists() && jsonDataProd == null) {
+            jsonDataProd = new JsonSlurper().parseText(jsonFileProd.text)
+        }
+        if (jsonFileNonProd.exists() && jsonDataNonProd == null) {
+            jsonDataNonProd = new JsonSlurper().parseText(jsonFileNonProd.text)
+        }
+    }
+
+    getJsonData = { env ->
+        if (env == envProd) {
+            return jsonDataProd
+        }
+        return jsonDataNonProd
+    }
+
+    readFlag = { toggleName, defaultValue, env ->
+        readJsonFile()
+        jsonData = getJsonData(env)
+        if (jsonData != null) {
+            def features = jsonData.get(featuresKey)
+            if (features != null) {
+                element = features.find { entry -> entry.get(searchKey) == toggleName }
+                flagValue = element != null ? element.get(env) : null
+                if (flagValue != null) {
+                    return flagValue.toString()
+                }
+            }
+        }
+        return defaultValue
+    }
+}
+
+android {
+    defaultConfig {
+        buildConfigField("boolean", "ENABLE_FEATURE_ADD_INFORMATION_TO_URL", readFlag("ENABLE_FEATURE_ADD_INFORMATION_TO_URL", "true", envProd))
+        buildConfigField("boolean", "ENABLE_FEATURE_TERM_AND_CONDITION_V3", readFlag("ENABLE_FEATURE_TERM_AND_CONDITION_V3", "true", envProd))
+        buildConfigField("boolean", "ENABLE_FEATURE_PRIVACY_POLICY_V3", readFlag("ENABLE_FEATURE_PRIVACY_POLICY_V3", "true", envProd))
+        buildConfigField("boolean", "ENABLE_FEATURE_FAQS_V3", readFlag("ENABLE_FEATURE_FAQS_V3", "true", envProd))
+        buildConfigField("boolean", "ENABLE_FEATURE_AUTOMATIC_DARK_MODE", readFlag("automaticDarkMode", "false", envProd))
+        buildConfigField("boolean", "ENABLE_SCROLLING_EVENT_AA_TRACKING", readFlag("scrollingEventAATracking", "false", envProd))
+        buildConfigField("boolean", "ENABLE_HORO_DETAIL_SHARE_BUTTON", readFlag("ENABLE_HORO_DETAIL_SHARE_BUTTON", "false", envProd))
+        buildConfigField("boolean", "ENABLE_FEATURE_TOPS_ONLINE_OTHER_SERVICES", readFlag("topsOnlineOtherServices", "false", envProd))
+        buildConfigField("boolean", "ENABLE_SKELETON_LOADING_HOME_PAGE", readFlag("enableSkeletonLoadingHomePage", "false", envProd))
+        buildConfigField("boolean", "GUEST_MODE", readFlag("GUEST_MODE", "true", envProd))
+        buildConfigField("boolean", "ENABLE_FEATURE_AA_DISMISS_EVENTS", readFlag("ENABLE_AA_DISMISS_EVENTS", "false", envProd))
+        buildConfigField("boolean", "ENABLE_FEATURE_DOLFIN_EARNPAY", readFlag("ENABLE_DOLFIN_EARNPAY", "false", envProd))
+        buildConfigField("boolean", "ENABLE_SKIPPIN_CASHCOUPON_PIN", readFlag("enableSkipPinCashCoupon", "false", envProd))
+        buildConfigField("boolean", "ENABLE_FEATURE_AA_OPEN_ORGANIC_EVENT", readFlag("ENABLE_AA_OPEN_ORGANIC_EVENT", "false", envProd))
+        buildConfigField("boolean", "ENABLE_FEATURE_DOLFINPAY_T1CODES", readFlag("ENABLE_DOLFINPAY_T1CODES", "false", envProd))
+        buildConfigField("boolean", "ENABLE_DOLFIN_BALANCE", readFlag("enableDolfinBalance", "false", envProd))
+        buildConfigField("boolean", "ENABLE_NEW_PDPA", readFlag("ENABLE_NEW_PDPA", "false", envProd))
+    }
+
+    productFlavors {
+        dev {
+            buildConfigField("int", "DOLFIN_SDK_ENV", "2")
+            buildConfigField("boolean", "ENABLE_FEATURE_ADD_INFORMATION_TO_URL", readFlag("ENABLE_FEATURE_ADD_INFORMATION_TO_URL", "true", envDev))
+            buildConfigField("boolean", "ENABLE_FEATURE_TERM_AND_CONDITION_V3", readFlag("ENABLE_FEATURE_TERM_AND_CONDITION_V3", "true", envDev))
+            buildConfigField("boolean", "ENABLE_FEATURE_PRIVACY_POLICY_V3", readFlag("ENABLE_FEATURE_PRIVACY_POLICY_V3", "true", envDev))
+            buildConfigField("boolean", "ENABLE_FEATURE_FAQS_V3", readFlag("ENABLE_FEATURE_FAQS_V3", "true", envDev))
+            buildConfigField("boolean", "ENABLE_FEATURE_AUTOMATIC_DARK_MODE", readFlag("automaticDarkMode", "true", envDev))
+            buildConfigField("boolean", "ENABLE_SCROLLING_EVENT_AA_TRACKING", readFlag("scrollingEventAATracking", "false", envDev))
+            buildConfigField("boolean", "ENABLE_HORO_DETAIL_SHARE_BUTTON", readFlag("ENABLE_HORO_DETAIL_SHARE_BUTTON", "false", envDev))
+            buildConfigField("boolean", "ENABLE_FEATURE_TOPS_ONLINE_OTHER_SERVICES", readFlag("topsOnlineOtherServices", "true", envDev))
+            buildConfigField("boolean", "ENABLE_SKELETON_LOADING_HOME_PAGE", readFlag("enableSkeletonLoadingHomePage", "false", envDev))
+            buildConfigField("boolean", "GUEST_MODE", readFlag("GUEST_MODE", "true", envDev))
+            buildConfigField("boolean", "ENABLE_FEATURE_AA_DISMISS_EVENTS", readFlag("ENABLE_AA_DISMISS_EVENTS", "true", envDev))
+            buildConfigField("boolean", "ENABLE_FEATURE_DOLFIN_EARNPAY", readFlag("ENABLE_DOLFIN_EARNPAY", "true", envDev))
+            buildConfigField("boolean", "ENABLE_SKIPPIN_CASHCOUPON_PIN", readFlag("enableSkipPinCashCoupon", "false", envDev))
+            buildConfigField("boolean", "ENABLE_FEATURE_AA_OPEN_ORGANIC_EVENT", readFlag("ENABLE_AA_OPEN_ORGANIC_EVENT", "true", envDev))
+            buildConfigField("boolean", "ENABLE_FEATURE_DOLFINPAY_T1CODES", readFlag("ENABLE_DOLFINPAY_T1CODES", "true", envDev))
+            buildConfigField("boolean", "ENABLE_DOLFIN_BALANCE", readFlag("enableDolfinBalance", "false", envDev))
+            buildConfigField("boolean", "ENABLE_NEW_PDPA", readFlag("ENABLE_NEW_PDPA", "true", envDev))
+        }
+
+        sit {
+            buildConfigField("int", "DOLFIN_SDK_ENV", "1")
+            buildConfigField("boolean", "ENABLE_FEATURE_ADD_INFORMATION_TO_URL", readFlag("ENABLE_FEATURE_ADD_INFORMATION_TO_URL", "true", envSit))
+            buildConfigField("boolean", "ENABLE_FEATURE_TERM_AND_CONDITION_V3", readFlag("ENABLE_FEATURE_TERM_AND_CONDITION_V3", "true", envSit))
+            buildConfigField("boolean", "ENABLE_FEATURE_PRIVACY_POLICY_V3", readFlag("ENABLE_FEATURE_PRIVACY_POLICY_V3", "true", envSit))
+            buildConfigField("boolean", "ENABLE_FEATURE_FAQS_V3", readFlag("ENABLE_FEATURE_FAQS_V3", "true", envSit))
+            buildConfigField("boolean", "ENABLE_FEATURE_AUTOMATIC_DARK_MODE", readFlag("automaticDarkMode", "true", envSit))
+            buildConfigField("boolean", "ENABLE_SCROLLING_EVENT_AA_TRACKING", readFlag("scrollingEventAATracking", "false", envSit))
+            buildConfigField("boolean", "ENABLE_HORO_DETAIL_SHARE_BUTTON", readFlag("ENABLE_HORO_DETAIL_SHARE_BUTTON", "false", envSit))
+            buildConfigField("boolean", "ENABLE_FEATURE_TOPS_ONLINE_OTHER_SERVICES", readFlag("topsOnlineOtherServices", "true", envSit))
+            buildConfigField("boolean", "ENABLE_SKELETON_LOADING_HOME_PAGE", readFlag("enableSkeletonLoadingHomePage", "false", envSit))
+            buildConfigField("boolean", "GUEST_MODE", readFlag("GUEST_MODE", "true", envSit))
+            buildConfigField("boolean", "ENABLE_FEATURE_AA_DISMISS_EVENTS", readFlag("ENABLE_AA_DISMISS_EVENTS", "true", envSit))
+            buildConfigField("boolean", "ENABLE_FEATURE_DOLFIN_EARNPAY", readFlag("ENABLE_DOLFIN_EARNPAY", "true", envSit))
+            buildConfigField("boolean", "ENABLE_SKIPPIN_CASHCOUPON_PIN", readFlag("enableSkipPinCashCoupon", "false", envSit))
+            buildConfigField("boolean", "ENABLE_FEATURE_AA_OPEN_ORGANIC_EVENT", readFlag("ENABLE_AA_OPEN_ORGANIC_EVENT", "true", envSit))
+            buildConfigField("boolean", "ENABLE_FEATURE_DOLFINPAY_T1CODES", readFlag("ENABLE_DOLFINPAY_T1CODES", "true", envSit))
+            buildConfigField("boolean", "ENABLE_DOLFIN_BALANCE", readFlag("enableDolfinBalance", "false", envSit))
+            buildConfigField("boolean", "ENABLE_NEW_PDPA", readFlag("ENABLE_NEW_PDPA", "true", envSit))
+        }
+
+        uat {
+            buildConfigField("int", "DOLFIN_SDK_ENV", "2")
+            buildConfigField("boolean", "ENABLE_FEATURE_ADD_INFORMATION_TO_URL", readFlag("ENABLE_FEATURE_ADD_INFORMATION_TO_URL", "true", envUat))
+            buildConfigField("boolean", "ENABLE_FEATURE_TERM_AND_CONDITION_V3", readFlag("ENABLE_FEATURE_TERM_AND_CONDITION_V3", "true", envUat))
+            buildConfigField("boolean", "ENABLE_FEATURE_PRIVACY_POLICY_V3", readFlag("ENABLE_FEATURE_PRIVACY_POLICY_V3", "true", envUat))
+            buildConfigField("boolean", "ENABLE_FEATURE_FAQS_V3", readFlag("ENABLE_FEATURE_FAQS_V3", "true", envUat))
+            buildConfigField("boolean", "ENABLE_FEATURE_AUTOMATIC_DARK_MODE", readFlag("automaticDarkMode", "true", envUat))
+            buildConfigField("boolean", "ENABLE_SCROLLING_EVENT_AA_TRACKING", readFlag("ENABLE_SCROLLING_EVENT_AA_TRACKING", "false", envUat))
+            buildConfigField("boolean", "ENABLE_HORO_DETAIL_SHARE_BUTTON", readFlag("ENABLE_HORO_DETAIL_SHARE_BUTTON", "false", envUat))
+            buildConfigField("boolean", "ENABLE_FEATURE_TOPS_ONLINE_OTHER_SERVICES", readFlag("topsOnlineOtherServices", "true", envUat))
+            buildConfigField("boolean", "ENABLE_SKELETON_LOADING_HOME_PAGE", readFlag("enableSkeletonLoadingHomePage", "false", envUat))
+            buildConfigField("boolean", "GUEST_MODE", readFlag("GUEST_MODE", "true", envUat))
+            buildConfigField("boolean", "ENABLE_FEATURE_AA_DISMISS_EVENTS", readFlag("ENABLE_AA_DISMISS_EVENTS", "true", envUat))
+            buildConfigField("boolean", "ENABLE_FEATURE_DOLFIN_EARNPAY", readFlag("ENABLE_DOLFIN_EARNPAY", "true", envUat))
+            buildConfigField("boolean", "ENABLE_SKIPPIN_CASHCOUPON_PIN", readFlag("enableSkipPinCashCoupon", "false", envUat))
+            buildConfigField("boolean", "ENABLE_FEATURE_AA_OPEN_ORGANIC_EVENT", readFlag("ENABLE_AA_OPEN_ORGANIC_EVENT", "true", envUat))
+            buildConfigField("boolean", "ENABLE_FEATURE_DOLFINPAY_T1CODES", readFlag("ENABLE_DOLFINPAY_T1CODES", "true", envUat))
+            buildConfigField("boolean", "ENABLE_DOLFIN_BALANCE", readFlag("enableDolfinBalance", "true", envUat))
+            buildConfigField("boolean", "ENABLE_NEW_PDPA", readFlag("ENABLE_NEW_PDPA", "true", envUat))
+        }
+
+        uatmock {
+        }
+
+        pvt {
+            buildConfigField("int", "DOLFIN_SDK_ENV", "0")
+        }
+
+        production {
+            buildConfigField("int", "DOLFIN_SDK_ENV", "0")
+        }
+    }
+}

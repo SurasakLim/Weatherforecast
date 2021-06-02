@@ -1,7 +1,5 @@
 package com.example.weatherforecast.unitlity
 
-import com.example.weatherforecast.db.WeatherDataBase
-import com.example.weatherforecast.ui.weathOneCall.module.WeatherOneCall
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.BufferedReader

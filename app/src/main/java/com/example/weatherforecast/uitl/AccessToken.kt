@@ -2,7 +2,7 @@ package com.example.weatherforecast.uitl
 
 import com.google.gson.annotations.SerializedName
 
-open class AccessToken (
+open class AccessToken(
     @SerializedName("userId")
     var userId: String,
 
@@ -17,6 +17,6 @@ open class AccessToken (
 
     @SerializedName("expires_in")
     var expiresIn: Long
-){
+) {
     constructor() : this("", "", "", "", 0)
 }

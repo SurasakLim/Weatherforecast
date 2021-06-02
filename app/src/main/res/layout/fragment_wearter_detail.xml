@@ -1,87 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="currentItem"
-            type="com.example.weatherforecast.ui.mainWeather.model.Weather" />
-
-        <variable
-            name="viewModel"
-            type="com.example.weatherforecast.ui.mainWeather.MainWeatherViewModel" />
-
-    </data>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/bg_main"
+        android:id="@+id/bgMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorCaradWeather">
+        android:background="@color/colorCaradWeather"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/csWeatherPage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.mainWeather.WearterDetailFragment">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
-                android:id="@+id/title_tmep_d"
+                android:id="@+id/titleTemp"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="160dp"
-                style="@style/ShadowTextViewStyle"
-                android:text="@{viewModel.untiTemporalChange == true ? viewModel.getCelsiusToFahrenheit(viewModel.mainTemp) : viewModel.getFahrenheitToCelsius(viewModel.mainTemp)}"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:textColor="@android:color/white"
                 android:textSize="40sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText"
+                app:layout_constraintTop_toBottomOf="@id/editText"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="PrivateResource"
                 tools:text="35 \u2103" />
 
             <TextView
-                android:id="@+id/tit_temp_status"
+                android:id="@+id/tvStatusTemp"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/ShadowTextViewStyle"
-                android:text="@{currentItem.component4().get(0).component9().get(0).component1()}"
                 android:textColor="@android:color/white"
-                app:layout_constraintBottom_toTopOf="@+id/title_tmep_d"
-                app:layout_constraintEnd_toEndOf="@+id/title_tmep_d"
-                app:layout_constraintStart_toStartOf="@+id/title_tmep_d"
+                app:layout_constraintBottom_toTopOf="@id/titleTemp"
+                app:layout_constraintEnd_toEndOf="@id/titleTemp"
+                app:layout_constraintStart_toStartOf="@id/titleTemp"
                 tools:text="Temp Satus" />
 
             <TextView
-                android:id="@+id/title_city_name"
+                android:id="@+id/titlecityName"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/ShadowTextViewStyle"
-
-                android:text="@{currentItem.component1().component4()}"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:textColor="@android:color/white"
                 android:textSize="45sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/tit_temp_status"
-                app:layout_constraintEnd_toEndOf="@+id/title_tmep_d"
-                app:layout_constraintStart_toStartOf="@+id/title_tmep_d"
+                app:layout_constraintBottom_toTopOf="@id/tvStatusTemp"
+                app:layout_constraintEnd_toEndOf="@id/titleTemp"
+                app:layout_constraintStart_toStartOf="@id/titleTemp"
                 tools:text="CIty name" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/editText"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:ems="10"
-                style="@style/ShadowTextViewStyle"
 
                 android:hint="@string/label_city_name"
                 android:inputType="textPersonName"
@@ -93,38 +86,37 @@
                 tools:text="Name of city" />
 
             <LinearLayout
-                android:id="@+id/chang_temp"
+                android:id="@+id/switchTemp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/title_city_name"
-                app:layout_constraintStart_toStartOf="@+id/guideline4">
+                app:layout_constraintBottom_toTopOf="@id/titlecityName"
+                app:layout_constraintStart_toStartOf="@id/guideline4">
 
 
                 <TextView
-                    android:id="@+id/tit_temp_f"
+                    android:id="@+id/tvTempF"
+                    style="@style/ShadowTextViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/title_f"
-                    style="@style/ShadowTextViewStyle"
-
                     android:textColor="@color/colorDetiveItem"
-                    app:layout_constraintBottom_toTopOf="@+id/title_city_name"
-                    app:layout_constraintStart_toStartOf="@+id/guideline4" />
+                    app:layout_constraintBottom_toTopOf="@id/titlecityName"
+                    app:layout_constraintStart_toStartOf="@id/guideline4" />
 
                 <TextView
-                    android:id="@+id/tit_temp_c"
+                    android:id="@+id/tvTempC"
+                    style="@style/ShadowTextViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:text="@string/title_c"
-                    style="@style/ShadowTextViewStyle"
 
                     android:textColor="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="@+id/tit_temp_f"
+                    app:layout_constraintBottom_toBottomOf="@id/tvTempF"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.13"
-                    app:layout_constraintStart_toEndOf="@+id/tit_temp_f"
-                    app:layout_constraintTop_toTopOf="@+id/tit_temp_f"
+                    app:layout_constraintStart_toEndOf="@id/tvTempF"
+                    app:layout_constraintTop_toTopOf="@id/tvTempF"
                     app:layout_constraintVertical_bias="1.0" />
             </LinearLayout>
 
@@ -152,204 +144,215 @@
 
             <TextView
                 android:id="@+id/textView7"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="50dp"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
                 android:text="@string/tit_wind"
-                style="@style/ShadowTextViewStyle"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline5" />
+                app:layout_constraintTop_toTopOf="@id/guideline5" />
 
             <TextView
-                android:id="@+id/txt_d_wind"
+                android:id="@+id/tvWind"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:textColor="@android:color/white"
-                style="@style/ShadowTextViewStyle"
-                android:txtFormatWind="@{currentItem.component4().get(0).component10().component2()}"
-                app:layout_constraintEnd_toEndOf="@+id/textView7"
+                app:layout_constraintEnd_toEndOf="@id/textView7"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView7"
-                app:layout_constraintTop_toBottomOf="@+id/textView7"
+                app:layout_constraintStart_toStartOf="@id/textView7"
+                app:layout_constraintTop_toBottomOf="@id/textView7"
                 tools:text="sse 5 mph" />
 
             <TextView
                 android:id="@+id/textView9"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="40dp"
                 android:text="@string/tit_feellike"
-                style="@style/ShadowTextViewStyle"
                 android:textColor="@android:color/white"
-                app:layout_constraintStart_toStartOf="@+id/guideline6"
-                app:layout_constraintTop_toTopOf="@+id/textView7" />
+                app:layout_constraintStart_toStartOf="@id/guideline6"
+                app:layout_constraintTop_toTopOf="@id/textView7" />
 
             <TextView
-                android:id="@+id/txt_feellike"
+                android:id="@+id/tvFeelLike"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/ShadowTextViewStyle"
-                android:text="@{viewModel.untiTemporalChange == true ? viewModel.getCelsiusToFahrenheit(viewModel.tempFeelLike) : viewModel.getFahrenheitToCelsius(viewModel.tempFeelLike)}"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:textColor="@android:color/white"
-                app:layout_constraintEnd_toEndOf="@+id/textView9"
+                app:layout_constraintEnd_toEndOf="@id/textView9"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView9"
-                app:layout_constraintTop_toBottomOf="@+id/textView9"
+                app:layout_constraintStart_toStartOf="@id/textView9"
+                app:layout_constraintTop_toBottomOf="@id/textView9"
                 tools:text="40 \u2103" />
 
             <TextView
                 android:id="@+id/textView11"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="@string/tit_cloud"
-                style="@style/ShadowTextViewStyle"
                 android:textColor="@android:color/white"
-                app:layout_constraintStart_toStartOf="@+id/textView7"
-                app:layout_constraintTop_toBottomOf="@+id/txt_d_wind" />
+                app:layout_constraintStart_toStartOf="@id/textView7"
+                app:layout_constraintTop_toBottomOf="@id/tvWind" />
 
             <TextView
-                android:id="@+id/txt_cloud"
+                android:id="@+id/tvCloud"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/ShadowTextViewStyle"
-                android:txtFormatCloud="@{currentItem.component4().get(0).component1().component1()}"
-                tools:text="scattered clouds: 25-50%"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:textColor="@android:color/white"
-                app:layout_constraintEnd_toEndOf="@+id/textView11"
+                app:layout_constraintEnd_toEndOf="@id/textView11"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView11"
-                app:layout_constraintTop_toBottomOf="@+id/textView11" />
+                app:layout_constraintStart_toStartOf="@id/textView11"
+                app:layout_constraintTop_toBottomOf="@id/textView11"
+                tools:text="scattered clouds: 25-50%" />
 
             <TextView
                 android:id="@+id/textView13"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="@string/tit_humity"
-                style="@style/ShadowTextViewStyle"
                 android:textColor="@android:color/white"
-                app:layout_constraintStart_toStartOf="@+id/textView9"
-                app:layout_constraintTop_toBottomOf="@+id/txt_feellike" />
+                app:layout_constraintStart_toStartOf="@id/textView9"
+                app:layout_constraintTop_toBottomOf="@id/tvFeelLike" />
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/tvHumity"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/ShadowTextViewStyle"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:textColor="@android:color/white"
-                android:txtFormatHumidity="@{currentItem.component4().get(0).component5().component3()}"
-                app:layout_constraintEnd_toEndOf="@+id/textView13"
+                app:layout_constraintEnd_toEndOf="@id/textView13"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView13"
-                app:layout_constraintTop_toBottomOf="@+id/textView13"
+                app:layout_constraintStart_toStartOf="@id/textView13"
+                app:layout_constraintTop_toBottomOf="@id/textView13"
                 tools:text="10%" />
 
             <TextView
                 android:id="@+id/textView15"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                style="@style/ShadowTextViewStyle"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title_tmep_d"
+                app:layout_constraintTop_toBottomOf="@id/titleTemp"
                 tools:text="Monday,15" />
 
             <TextView
                 android:id="@+id/textView16"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="50dp"
                 android:text="@string/tit_snow"
-                style="@style/ShadowTextViewStyle"
                 android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView7"
-                app:layout_constraintTop_toBottomOf="@+id/txt_cloud" />
+                app:layout_constraintStart_toStartOf="@id/textView7"
+                app:layout_constraintTop_toBottomOf="@id/tvCloud" />
 
             <TextView
-                android:id="@+id/textView17"
+                android:id="@+id/tvSnow"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/ShadowTextViewStyle"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:textColor="@android:color/white"
-                android:txtFormatHumidity="@{currentItem.component4().get(0).component7().component1()}"
-                app:layout_constraintEnd_toEndOf="@+id/textView16"
+                app:layout_constraintEnd_toEndOf="@id/textView16"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView16"
-                app:layout_constraintTop_toBottomOf="@+id/textView16" />
+                app:layout_constraintStart_toStartOf="@id/textView16"
+                app:layout_constraintTop_toBottomOf="@id/textView16" />
 
             <TextView
-                android:id="@+id/view_current"
+                android:id="@+id/tvSwithToCurrentTemp"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:textColor="@android:color/white"
-                style="@style/ShadowTextViewStyle"
                 android:text="@string/tit_view_curret"
+                android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/featue_list"
+                app:layout_constraintTop_toBottomOf="@id/featureList"
                 tools:ignore="PrivateResource" />
 
-            <View
-                android:id="@+id/bg_loading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="#D83F51B5"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/bg_loading"
-                app:layout_constraintStart_toStartOf="@+id/bg_loading"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/featue_list"
+                android:id="@+id/featureList"
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/view_current"
+                app:layout_constraintBottom_toTopOf="@id/tvSwithToCurrentTemp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView15"
+                app:layout_constraintTop_toBottomOf="@id/textView15"
                 app:layout_constraintVertical_bias="0.104"
                 tools:listitem="@layout/item_current_feature" />
 
             <TextView
                 android:id="@+id/textView2"
+                style="@style/ShadowTextViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="@string/title_chenge_temp"
-                style="@style/ShadowTextViewStyle"
 
                 android:textColor="@android:color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/chang_temp"
-                app:layout_constraintEnd_toStartOf="@+id/chang_temp"
-                app:layout_constraintTop_toBottomOf="@+id/editText" />
+                app:layout_constraintBottom_toBottomOf="@id/switchTemp"
+                app:layout_constraintEnd_toStartOf="@id/switchTemp"
+                app:layout_constraintTop_toBottomOf="@id/editText" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-</layout>
+    <View
+        android:id="@+id/vLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#D83F51B5"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/vLoading"
+        app:layout_constraintStart_toStartOf="@id/vLoading"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
