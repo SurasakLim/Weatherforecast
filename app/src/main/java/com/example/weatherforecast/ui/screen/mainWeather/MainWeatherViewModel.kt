@@ -23,6 +23,8 @@ abstract class MainWeatherViewModel : BaseViewModel() {
     abstract val showLoading: Observable<Boolean>
     abstract val untiTemporalChange: LiveData<Boolean>
     abstract fun changeUntiTemporalChange()
+    abstract fun setWeatherData(weather: Weather?)
+    abstract fun setUntiTemporal(onChange: Boolean)
 }
 
 interface Input {
@@ -40,6 +42,8 @@ class MainWeatherViewModelImpl @Inject constructor(
     override val input: Input
         get() = this
 
+    private val _error = BehaviorSubject.create<Throwable>()
+
     private val _showLoading = BehaviorSubject.create<Boolean>()
     override val showLoading: Observable<Boolean>
         get() = _showLoading
@@ -50,8 +54,11 @@ class MainWeatherViewModelImpl @Inject constructor(
 
     override fun getWeatherCountry(countryId: String) {
         getWeatherSingleUseCase.execute(countryId)
-            .doOnSuccess { _showLoading.onNext(true) }
+            .doOnSubscribe { _showLoading.onNext(true) }
             .doFinally { _showLoading.onNext(false) }
+            .doOnError {
+                _error.onNext(it)
+            }
             .subscribeBy { it ->
                 it.list.distinctBy {
                     it.dtTxt
@@ -85,11 +92,11 @@ class MainWeatherViewModelImpl @Inject constructor(
         setWeatherData(_weather.value)
     }
 
-    private fun setUntiTemporal(onChange: Boolean) {
+    override fun setUntiTemporal(onChange: Boolean) {
         _untiTemporalChange.value = onChange
     }
 
-    private fun setWeatherData(weather: Weather?) {
+    override fun setWeatherData(weather: Weather?) {
         _weather.value = weather
     }
 
