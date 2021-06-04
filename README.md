@@ -1,9 +1,9 @@
 # Weatherforecast
 
 Design architecture with MVVM + MVP ,use call API Retrofit 2,View Model,Data binding
- \n -in first screen get API Weather defalte and set data on screen
- \n-can fill city name in English and Enter on keybroad
- \n-Unit Test
+-in first screen get API Weather defalte and set data on screen
+-can fill city name in English and Enter on keybroad
+-Unit Test
  
  <p align="center">
   <img src="/img/Screenshot_20200617-160348.png" width="350" title="Main Weather">
